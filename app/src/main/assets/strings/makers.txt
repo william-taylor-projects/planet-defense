@@ -1,0 +1,9 @@
+# String file
+ 
+Programming By : William Taylor
+   
+Graphics By : Jacob Wittenzellner
+  
+Music By : Nevena Krasteva
+   
+# End

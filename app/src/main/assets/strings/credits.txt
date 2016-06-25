@@ -1,0 +1,10 @@
+# String file
+Thank you for downloading and playing the game.
+It was made in the early parts of 2014 and is 
+a major piece of my portfolio. Please note the 
+game was coded from scratch it was not built 
+with an advanced engine. So please dont hate it 
+that much if a bug comes along. Just message me 
+at wi11berto@yahoo.co.uk with any bugs you may 
+have come accross and ill get them fixed. Cheers.
+# End
