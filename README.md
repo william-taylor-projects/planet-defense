@@ -17,8 +17,11 @@ You can get a copy with your normal clone command. Once you have done so you can
 
 ## Features
 
-TBD
-
+* Hardware accelerated graphics
+* Particle effects
+* Basic 2D physics
+* Bitmap fonts
+ 
 ## Links
 
 [Google Play Store](https://play.google.com/store/apps/details?id=com.planetDefense)
