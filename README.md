@@ -1,10 +1,13 @@
 ## Planet Defense
 
-Simple wave based 2D survival game.
+Simple wave based 2D survival game made for myself.
+
+![alt tag](http://www.williamsamtaylor.co.uk/images/projects/planet-defense2.jpg)
 
 ## Overview
 
-TBD
+Planet Defense is an OpenGL ES 2.0 application. In fact the whole thing is OpenGL apart from
+the message boxes which are of course native gui items.
 
 ## Installation
 
