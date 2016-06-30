@@ -14,7 +14,7 @@
         android:name="TaloniteGame">
         <activity
             android:screenOrientation="landscape"
-            android:name="com.planetDefense.MainActivity"
+            android:name="com.planetDefense.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

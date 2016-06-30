@@ -24,4 +24,4 @@ You can get a copy with your normal clone command. Once you have done so you can
  
 ## Links
 
-[Google Play Store](https://play.google.com/store/apps/details?id=com.planetDefense)
+[Google Play Store](https://play.google.com/store/apps/details?id=com.com.planetDefense)
