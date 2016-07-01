@@ -73,7 +73,7 @@ public class Earth {
 		spriteCenter = new Vector2D();
 	}
 	
-	/** Update function that just rotates the earth and the moon */
+	/** update function that just rotates the earth and the moon */
 	public void update() {				
 		earthRotation -= EARTH_ROTATION;
 		moonRotation += MOON_ROTATION;

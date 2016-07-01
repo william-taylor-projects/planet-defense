@@ -115,7 +115,7 @@ public class StatisticsScene extends Scene {
 		
 		/** The update function which just updates each element */
 		public void update() {
-			/** Update all strings we dont really need to do anything else */
+			/** update all strings we dont really need to do anything else */
 			totalKills.Update();		
 			totalWaves.Update();
 			totalGames.Update();

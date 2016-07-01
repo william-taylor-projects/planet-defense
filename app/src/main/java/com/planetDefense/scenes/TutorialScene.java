@@ -59,7 +59,7 @@ public class TutorialScene extends Scene {
 	/** The background for the tutorial scene */
 	private GameImage background;
 
-	/** Used as a lock to stop the timer continually firing */
+	/** used as a lock to stop the timer continually firing */
 	private Boolean stop = true;
 	
 	/** The tutorials state expressed as a Integer */
@@ -272,7 +272,7 @@ public class TutorialScene extends Scene {
 			/** if at this stage we should drop an item */
 			if(state == 4) {
 				/** drop item */
-				powerUp.DropItem(200, 300);
+				powerUp.dropItem(200, 300);
 			}
 		}
 
@@ -297,7 +297,7 @@ public class TutorialScene extends Scene {
 			event = new UsePowerUp(powerUp);
 			
 			listener = new Collision();
-			listener.surfaces(player.GetSprite(), powerUp.GetSprite());
+			listener.surfaces(player.GetSprite(), powerUp.getSprite());
 			listener.eventType(event);
 
 			enemy = new Enemy();
@@ -311,12 +311,12 @@ public class TutorialScene extends Scene {
 		/** just updates all game.objects in the scene */
 		public void update() {
 			/** update these game.objects */
-			powerUp.Update();
+			powerUp.update();
 			player.Update();
 			
 			/** if the powerUp has been used we should hide it */
-			if(powerUp.Used()) {
-				powerUp.Hide();
+			if(powerUp.used()) {
+				powerUp.hide();
 			}
 			
 			/** if we are at this state the following game.objects need to be updated*/
@@ -334,7 +334,7 @@ public class TutorialScene extends Scene {
 		/** onRender function just pushes all renderable targets to the queue */
 		public void onRender(RenderQueue renderList) {
 			/** push powerup first */
-			renderList.pushRenderable(powerUp.GetSprite());
+			renderList.pushRenderable(powerUp.getSprite());
 			
 			/** The push all other game.objects if we are in the correct state */
 			if(state >= 2) {
@@ -362,7 +362,7 @@ public class TutorialScene extends Scene {
 		public void resetObject() {
 			/** remove and hide the power up */
 			this.powerUp.enable();
-			this.powerUp.Hide();
+			this.powerUp.hide();
 			
 			/** Then just reset all the other game.objects */
 			this.missiles.ResetObject();

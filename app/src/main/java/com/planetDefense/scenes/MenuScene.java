@@ -102,7 +102,7 @@ public class MenuScene extends Scene {
 		EventManager.get().addListener(event);
 	}
 	
-	/** Update method called just before rendering */
+	/** update method called just before rendering */
 	@Override
 	public void onUpdate() {
 		/** Just update all the individual game.objects */

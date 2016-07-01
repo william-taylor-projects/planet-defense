@@ -45,23 +45,23 @@ public class Nuke extends PowerUp {
 	}
 	
 	@Override
-	public void DropItem(int x, int y) {
+	public void dropItem(int x, int y) {
 		Sprite.shift(x, y, 1);
 		Visible = true;
 	}
 
 	@Override
-	public void Update() {
+	public void update() {
 		Sprite.update(0);
 	}
 
 	@Override
-	public void Draw() {
+	public void draw() {
 		Sprite.render();
 	}
 
 	@Override
-	public Boolean Used() {
+	public Boolean used() {
 		if(Used) {
 			Used = false;
 			return true;
@@ -79,19 +79,19 @@ public class Nuke extends PowerUp {
 	}
 
 	@Override
-	public void Hide() {
+	public void hide() {
 		Visible = false;
 		Sprite.reset();
 		Used = false;
 	}
 
 	@Override
-	public GL_Image GetSprite() {
+	public GL_Image getSprite() {
 		return Sprite;
 	}
 
 	@Override
-	public Boolean Hidden() {
+	public Boolean hidden() {
 		return(Visible);
 	}
 }

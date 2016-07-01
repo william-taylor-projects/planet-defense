@@ -1,84 +1,38 @@
 package com.planetDefense.scenes;
 
-/**
- * Copyright (c) 2014 - William Taylor <wi11berto@yahoo.co.uk>
- *
- *	This software is provided 'as-is', without any express or implied warranty. 
- *  In no event will the authors be held liable for any damages arising from 
- *  the use of this software. Permission is granted to anyone to use this 
- *  software for any purpose, including commercial applications, and to 
- *  alter it and redistribute it freely, subject to the following 
- *  restrictions:
- *
- *	1. The origin of this software must not be misrepresented; 
- *     you must not claim that you wrote the original software. 
- *	   If you use this software in a product, an acknowledgment 
- *     in the product documentation would be appreciated 
- *     but is not required.
- *
- *  2. Altered source versions must be plainly marked as such, 
- *     and must not be misrepresented as being the original 
- *     software.
- *  
- *  3. This notice may not be removed or altered 
- *     from any source distribution.
- *     
- */
-import com.planetDefense.TaloniteRenderer.RenderQueue;
+import com.framework.IContainer;
 import android.view.MotionEvent;
 
+import com.framework.IFactory;
+import com.framework.core.SceneList;
+import com.framework.graphics.Image;
+import com.framework.graphics.RenderQueue;
 import com.planetDefense.activity.MainActivity;
 import com.planetDefense.objects.*;
 
-/**
- *  This is a scene list which controls all MainScene
- *  game.objects such as the ship and enemys
- *  
- * @version : final version for release
- * @author : William Taylor
- */
-public class MainObjects extends SceneList implements IContainer {	
-	/** A integer that counts the remaining enemys in the scene */
-	private Integer remainingEnemys;	
-	
-	/** This the background texture for the level */
-	private GameImage background;
-	
-	/** A container which controls a list of Missile game.objects */
+public class MainObjects extends SceneList implements IContainer {
+	private Integer remainingEnemys;
+	private Image background;
 	private Missiles missile;
-	
-	/** Another container that manages all the powerups that can be dropped */
 	private PowerUps dropables;
-	
-	/** Yet Another container :P which has manages all the HUD game.objects */
 	private GameHUD gameHUD;
-	
-	/** I like containers :3 This one holds all the enemys in the scene */
 	private Enemys enemys;
-	
-	/** Again with a container, just stop it. It holds the moon and planet game.objects */
 	private Earth world;
-	
-	/** Not a container D: This is just a reference to the player */
 	private Ship ship;
-	
-	/**	The basic constructor for the object */
-	public MainObjects() {	
-		/** Create the game.objects used by the object */
+
+	public MainObjects() {
 		missile = new Missiles();
 		gameHUD = new GameHUD();
 		enemys = new Enemys();
 		world = new Earth();
 		ship = new Ship();
-	
-		/** Load the background image and pass data to the dropables container */
-		background = new GameImage("sprites/pic.bmp");
+
+		background = new Image("sprites/pic.bmp");
 		background.setPosition(0, 0, 1280, 800);		
 		dropables = new PowerUps(ship, enemys);
 	}
-	
-	/**	Initialise function which calls the relevant functions in the containers */
-	public void Initialise(IFactory factory) {		
+
+	public void Initialise(IFactory factory) {
 		gameHUD.Initialise(factory);
 		missile.Initialise(factory);
 		enemys.Initialise(factory);
@@ -87,18 +41,16 @@ public class MainObjects extends SceneList implements IContainer {
 		Reset(MainActivity.MENU);
 	}
 
-	/** Must implement this method to add inner game.objects to the factory */
 	@Override
-	public void StackSubObjects(IFactory factory) {
+	public void stackSubObjects(IFactory factory) {
 		/** Stack the the following sub game.objects */
-		factory.Stack(background, "LevelBackground");
-		factory.Stack(missile, "Missiles");
-		factory.Stack(enemys, "Enemys");
-		factory.Stack(world, "Earth");
-		factory.Stack(ship, "Ship");
-		
-		/** The stack the game HUD container which will stack its sub game.objects */
-		factory.StackContainer(gameHUD, "GameHUD");
+		factory.stack(background, "LevelBackground");
+		factory.stack(missile, "Missiles");
+		factory.stack(enemys, "Enemys");
+		factory.stack(world, "Earth");
+		factory.stack(ship, "Ship");
+
+		factory.stackContainer(gameHUD, "GameHUD");
 	}
 	
 	/**	Simple Check Function */
@@ -144,15 +96,12 @@ public class MainObjects extends SceneList implements IContainer {
 			remainingEnemys = com.planetDefense.objects.Enemys.STARTING_ENEMYS;
 			enemys.ResetObject();
 		}
-		
-		/** Increment the level count in the HUD */
+
 		gameHUD.SetLevel(value);
 	}
 
-	/** Update object function just updates the game.objects positions	 */
 	@Override
-	public void Update() {
-		/** Update the following game.objects */
+	public void update() {
 		background.update();
 		dropables.Update();
 		gameHUD.Update();
@@ -160,40 +109,32 @@ public class MainObjects extends SceneList implements IContainer {
 		enemys.Update();
 		world.update();
 		ship.Update();	
-		
-		/** Re calculate the remaining enemys on each update */
+
 		int startCount = com.planetDefense.objects.Enemys.STARTING_ENEMYS;
 		int killCount = enemys.GetNumberOffKills();
 		
 		remainingEnemys = startCount - killCount;
 	}
-	
-	/**	onEnter function starts the timer for the droppables */
+
 	public void onEnter() {
 		for(int i = 0; i < Missiles.COUNT; i++) {
 			missile.ResetMissile(i);
 		} dropables.onEnter();
 	}
-	
-	/** onExit stops the dropables timer and resets some game.objects */
+
 	public void onExit(Integer e) {
-		/** Reset some of the game.objects */
 		if(e == MainActivity.GAMEOVER) {
 			enemys.ResetObject();
 			world.resetObject();
 			ship.ResetObject();
 		}
-		
-		/** Call the dropables version of the function */
+
 		dropables.onExit();
 	}
-	
-	/** onRender function that calls the respective render functions of each object  */
+
 	public void onRender(RenderQueue renderList) {
-		/** Send the background to the renderQueue first */
-		renderList.pushRenderable(background);
-		
-		/** The call the object render functions */
+		renderList.put(background);
+
 		world.draw(renderList);
 		missile.draw(renderList);
 		enemys.draw(renderList);

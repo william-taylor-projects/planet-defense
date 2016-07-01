@@ -105,7 +105,7 @@ public class MainScene extends Scene {
 					Enemy.SPEED += Enemy.INCREMENT;
 				}
 				
-				/** Update the statistics & call the game.objects to prepare for the next level */
+				/** update the statistics & call the game.objects to prepare for the next level */
 				Statistics.get().newRecord(++waveNumber).waveDone();
 				objects.NextLevel(waveNumber);
 				

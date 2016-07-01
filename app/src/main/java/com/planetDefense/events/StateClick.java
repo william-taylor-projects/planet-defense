@@ -5,15 +5,11 @@ import com.framework.audio.AudioClip;
 import com.framework.core.SceneManager;
 
 public class StateClick implements IEvent {
+    private static final SceneManager scenes = SceneManager.get();
 	private static final Integer NONE_SELECTED = -1;
 	private static final Float VOLUME = 0.25F;
-	private static final SceneManager scenes;
 
 	private Integer state = NONE_SELECTED;
-
-	static {
-		scenes = SceneManager.get();
-	}
 
 	public StateClick(int i) {
 		state = i;
@@ -30,6 +26,6 @@ public class StateClick implements IEvent {
 
 	@Override
 	public void update() {
-		;
+
 	}
 }

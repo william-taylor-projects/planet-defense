@@ -3,8 +3,12 @@ package com.planetDefense.scenes;
 import com.framework.IFactory;
 import com.framework.audio.AudioClip;
 import com.framework.core.SceneManager;
+import com.framework.graphics.Button;
 import com.framework.graphics.Font;
+import com.framework.graphics.Image;
+import com.framework.graphics.Label;
 import com.planetDefense.activity.MainActivity;
+import com.planetDefense.objects.Statistics;
 
 public class LoadingProcess {
 	private IFactory factory;
@@ -24,38 +28,37 @@ public class LoadingProcess {
 
 			if(Statistics.get().isFirstTimePlaying()) {
 				// if so start at the tutorial 
-				sceneMgr.StartFrom(MainActivity.TUTORIAL);
+				sceneMgr.startFrom(MainActivity.TUTORIAL);
 			} else {
 				// otherwise start at the menu
-				sceneMgr.StartFrom(MainActivity.MENU);
+				sceneMgr.startFrom(MainActivity.MENU);
 			} 
-			
-			/** Load the games title */
-			LabelLine text = new LabelLine(large);
-			text.Text("Planet Defense");
-			text.Load(0, 0);
-			text.Translate(640 - text.GetWidth()/2, 600);
+
+			Label text = new Label(large);
+			text.text("Planet Defense");
+			text.load(0, 0);
+			text.translate(640 - text.getWidth() / 2, 600);
 				
 			/** Load the back button for the game */
-			GameButton backButton = new GameButton(medium);
-			backButton.SetText("Back", 100, 670, 300, 100);
+			Button backButton = new Button(medium);
+			backButton.setText("Back", 100, 670, 300, 100);
 		
 			/** Load the menu music */
 			AudioClip audio = new AudioClip(com.planetDefense.R.raw.level);
 			audio.setVolume(1.0F, 1.0F);
 			audio.setLoop(true);
 			
-			GameImage background = new GameImage("sprites/menu.bmp");
+			Image background = new Image("sprites/menu.bmp");
 			background.setPosition(0, 0, 1280, 800);
 		
 			/** Stack all shared assets into the com.framework factory */
-			factory.Stack(background, "MenuBackground");
-			factory.Stack(backButton, "BackButton");
-			factory.Stack(audio, "BackgroundMusic");
-			factory.Stack(text, "MenuText");
+			factory.stack(background, "MenuBackground");
+			factory.stack(backButton, "BackButton");
+			factory.stack(audio, "BackgroundMusic");
+			factory.stack(text, "MenuText");
 			
 			/** A stack the MainObjects Container */
-			factory.StackContainer(new MainObjects(), "LevelObjects");
+			factory.stackContainer(new MainObjects(), "LevelObjects");
 		} catch(Exception e) {
 			System.err.println(e.getLocalizedMessage());
 			System.err.println(e.getMessage());

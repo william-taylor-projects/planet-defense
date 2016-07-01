@@ -155,7 +155,7 @@ public class UpgradeState extends Scene {
 	/** update function simply updates all the elements in the scene */
 	@Override
 	public void onUpdate() {
-		/** Update button, background and inner classes */
+		/** update button, background and inner classes */
 		upgradeButtons.update();
 		upgradeText.update();
 		background.update();

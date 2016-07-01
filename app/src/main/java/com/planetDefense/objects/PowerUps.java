@@ -83,7 +83,7 @@ public class PowerUps {
 		
 		PowerUpCollision = new Collision();
 		PowerUpCollision.eventType(CollisionEvent);
-		PowerUpCollision.surfaces(Player.GetSprite(), CurrentPowerUp.GetSprite());
+		PowerUpCollision.surfaces(Player.GetSprite(), CurrentPowerUp.getSprite());
 		
 		EventManager.get().addListener(PowerUpCollision);
 	}
@@ -124,12 +124,12 @@ public class PowerUps {
 					}
 					
 					CurrentPowerUp = Powerups.get(Rand.nextInt(Powerups.size()));
-					CurrentPowerUp.DropItem(spawn_x, spawn_y);
+					CurrentPowerUp.dropItem(spawn_x, spawn_y);
 					CurrentPowerUp.enable();
 					
 					CollisionEvent.ChangePowerUp(CurrentPowerUp);
 					
-					PowerUpCollision.surfaces(Player.GetSprite(), CurrentPowerUp.GetSprite());
+					PowerUpCollision.surfaces(Player.GetSprite(), CurrentPowerUp.getSprite());
 				}
 			}
 		}.setID(++currentSpawnNumber), SPAWN_TIME);
@@ -138,8 +138,8 @@ public class PowerUps {
 			@Override
 			public void run() {
 				CurrentPowerUp.disable();
-				if(!CurrentPowerUp.Used()) {
-					CurrentPowerUp.Hide();
+				if(!CurrentPowerUp.used()) {
+					CurrentPowerUp.hide();
 					TimeOut = true;
 				}
 			}		
@@ -147,24 +147,24 @@ public class PowerUps {
 	}
 	
 	public void Update() {	
-		if(CurrentPowerUp.Used() || TimeOut) {
+		if(CurrentPowerUp.used() || TimeOut) {
 			TimeOut = false;		
 			
 			CurrentPowerUp.disable();
-			CurrentPowerUp.Hide();
+			CurrentPowerUp.hide();
 			
 			TimerOutTimer.cancel();
 			TimerOutTimer.purge();
 			
 			StartTimer();
-		} CurrentPowerUp.Update();
+		} CurrentPowerUp.update();
 	}
 	
 	public void Draw() {
-		CurrentPowerUp.Draw();
+		CurrentPowerUp.draw();
 	}
 
 	public void draw(RenderQueue renderList) {
-		renderList.pushRenderable(CurrentPowerUp.GetSprite());
+		renderList.pushRenderable(CurrentPowerUp.getSprite());
 	}
 }
