@@ -24,6 +24,8 @@ package com.planetDefense.objects;
  *     from any source distribution.
  *     
  */
+import com.framework.opengl.OpenglImage;
+
 import java.util.TimerTask;
 import java.util.Timer;
 
@@ -37,7 +39,7 @@ public class MoveFast extends PowerUp {
 		}
 	}
 	
-	private GL_Image Sprite;
+	private OpenglImage Sprite;
 	private Boolean Used;
 	private Boolean Visible;
 	private Timer Timer;
@@ -46,7 +48,7 @@ public class MoveFast extends PowerUp {
 	public MoveFast(Ship Player) {
 		super();
 		
-		Sprite = new GL_Image();
+		Sprite = new OpenglImage();
 		Sprite.load("sprites/fast.png", "fast");
 		Sprite.setPosition(-100, -100, 50, 50);
 		
@@ -103,7 +105,7 @@ public class MoveFast extends PowerUp {
 	}
 
 	@Override
-	public GL_Image getSprite() {
+	public OpenglImage getSprite() {
 		return Sprite;
 	}
 

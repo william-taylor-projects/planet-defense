@@ -2,12 +2,13 @@ package com.framework.opengl;
 
 import java.util.Random;
 
+import com.framework.IRenderable;
 import com.framework.math.Matrix;
 import com.framework.math.Vector2;
 
 import static android.opengl.GLES20.*;
 
-public class OpenglParticles {
+public class OpenglParticles implements IRenderable {
     private final String VS = "shaders/fire_vs.glsl";
     private final String FS = "shaders/fire_fs.glsl";
     private static int TranslateID;
@@ -91,6 +92,7 @@ public class OpenglParticles {
         glEnableVertexAttribArray(PositionID);
     }
 
+    @Override
     public void render() {
         if(time < 10.0f) {
             buffer.bindBuffer();

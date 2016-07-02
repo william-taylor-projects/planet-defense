@@ -24,47 +24,51 @@ package com.planetDefense.objects;
  *     from any source distribution.
  *     
  */
-import com.planetDefense.TaloniteRenderer.RenderQueue;
-
+import com.framework.IFactory;
+import com.framework.core.CollisionEvent;
 import java.util.TimerTask;
 import java.util.Timer;
 
+import com.framework.core.EventManager;
+import com.framework.graphics.RenderQueue;
+import com.framework.math.Vector2;
+import com.framework.opengl.OpenglImage;
 import com.planetDefense.events.BulletCollision;
 import android.view.MotionEvent;
 
-public class Missiles {	
+public class Missiles {
+	public static Vector2 LaunchPos = new Vector2();
 	public static Integer ORIGINAL = 500;
 	public static Integer DELAY = 500;
 	public static Integer COUNT = 10;
 	
 	private BulletCollision CollisionEvent = new BulletCollision();
-	private Collision[] EnemyCollisions;
+	private CollisionEvent[] EnemyCollisions;
 	
 	private Missile[] Missiles = new Missile[COUNT];
-	public static Vector2D LaunchPos = new Vector2D();
-	private Enemys Enemys;
+	private Enemies Enemys;
 	private Ship Player;
 	
 	private Boolean Fire = false;
 	private Integer Current = 0;
 
 	public void Initialise(IFactory factory) {
-		Enemys = factory.Request("Enemys");
-		Player = factory.Request("Ship");
+		Enemys = factory.request("Enemys");
+		Player = factory.request("Ship");
 		StartTimer(DELAY);
 		
 		for(int i = 0; i < COUNT; i++) {
 			Missiles[i] = new Missile(Player);
 		} 
 		
-		EnemyCollisions = new Collision[com.planetDefense.objects.Enemys.MAX];
+		EnemyCollisions = new CollisionEvent[Enemies.MAX];
 		for(int i = 0; i < EnemyCollisions.length; i++) {
-			EnemyCollisions[i] = new Collision();
+			EnemyCollisions[i] = new CollisionEvent();
 			EnemyCollisions[i].eventType(this.CollisionEvent);			
 		}
 	}
 	
-	public GL_Image GetMissile(int i) {
+	public OpenglImage GetMissile(int i) {
 		return Missiles[i].getSprite();
 	}
 	
@@ -73,7 +77,7 @@ public class Missiles {
 	}
 	
 	public void LaunchMissile(float x, float y) {
-		LaunchPos.Set(x, y);
+		LaunchPos.set(x, y);
 		Fire = true;
 	}
 	
@@ -93,14 +97,14 @@ public class Missiles {
 					}
 				}
 			}
-			
+
 			Missiles[i].Update();
 		}
 	}
 
 	public void OnTouch(MotionEvent e, float x, float y) {
 		Integer ID = e.getAction();
-		LaunchPos.Set(x, y);
+		LaunchPos.set(x, y);
 		if(ID == MotionEvent.ACTION_MOVE || ID == MotionEvent.ACTION_DOWN) {
 			LaunchMissile(x, y);
 		} else {
@@ -143,7 +147,7 @@ public class Missiles {
 		if(this.Player.isAlive()) {
 			for(int i = 0; i < COUNT; i++) {
 				if(Missiles[i].hasFired()) {
-					renderList.pushRenderable(Missiles[i].getSprite());
+					renderList.put(Missiles[i].getSprite());
 				}
 			}
 		}

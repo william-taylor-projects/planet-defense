@@ -16,14 +16,14 @@ public class MainObjects extends SceneList implements IContainer {
 	private Missiles missile;
 	private PowerUps dropables;
 	private GameHUD gameHUD;
-	private Enemys enemys;
+	private Enemies enemys;
 	private Earth world;
 	private Ship ship;
 
 	public MainObjects() {
 		missile = new Missiles();
 		gameHUD = new GameHUD();
-		enemys = new Enemys();
+		enemys = new Enemies();
 		world = new Earth();
 		ship = new Ship();
 
@@ -32,7 +32,8 @@ public class MainObjects extends SceneList implements IContainer {
 		dropables = new PowerUps(ship, enemys);
 	}
 
-	public void Initialise(IFactory factory) {
+	@Override
+	public void initialise(IFactory factory) {
 		gameHUD.Initialise(factory);
 		missile.Initialise(factory);
 		enemys.Initialise(factory);
@@ -67,7 +68,7 @@ public class MainObjects extends SceneList implements IContainer {
 		}
 		
 		/** Reset the counters and enemy states */
-		remainingEnemys = com.planetDefense.objects.Enemys.STARTING_ENEMYS;
+		remainingEnemys = Enemies.STARTING_ENEMYS;
 		enemys.ResetObject();
 		Enemy.SPEED = 0.75F;
 		
@@ -93,7 +94,7 @@ public class MainObjects extends SceneList implements IContainer {
 	public void NextLevel(Integer value) {
 		/** Make sure the ship is alive first */
 		if(ship.isAlive()) {
-			remainingEnemys = com.planetDefense.objects.Enemys.STARTING_ENEMYS;
+			remainingEnemys = Enemies.STARTING_ENEMYS;
 			enemys.ResetObject();
 		}
 
@@ -110,7 +111,7 @@ public class MainObjects extends SceneList implements IContainer {
 		world.update();
 		ship.Update();	
 
-		int startCount = com.planetDefense.objects.Enemys.STARTING_ENEMYS;
+		int startCount = Enemies.STARTING_ENEMYS;
 		int killCount = enemys.GetNumberOffKills();
 		
 		remainingEnemys = startCount - killCount;

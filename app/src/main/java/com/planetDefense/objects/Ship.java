@@ -1,37 +1,15 @@
 package com.planetDefense.objects;
 
-/**
- * Copyright (c) 2014 - William Taylor <wi11berto@yahoo.co.uk>
- *
- *	This software is provided 'as-is', without any express or implied warranty. 
- *  In no event will the authors be held liable for any damages arising from 
- *  the use of this software. Permission is granted to anyone to use this 
- *  software for any purpose, including commercial applications, and to 
- *  alter it and redistribute it freely, subject to the following 
- *  restrictions:
- *
- *	1. The origin of this software must not be misrepresented; 
- *     you must not claim that you wrote the original software. 
- *	   If you use this software in a product, an acknowledgment 
- *     in the product documentation would be appreciated 
- *     but is not required.
- *
- *  2. Altered source versions must be plainly marked as such, 
- *     and must not be misrepresented as being the original 
- *     software.
- *  
- *  3. This notice may not be removed or altered 
- *     from any source distribution.
- *     
- */
-import com.planetDefense.TaloniteRenderer.RenderQueue;
-
+import com.framework.IFactory;
+import com.framework.core.CollisionEvent;
+import com.framework.core.EventManager;
+import com.framework.graphics.RenderQueue;
+import com.framework.math.Vector2;
+import com.framework.opengl.OpenglImage;
+import com.framework.opengl.OpenglTextureUnit;
 import com.planetDefense.events.ShipCollision;
 import com.planetDefense.events.ShipDeath;
-
-
 import android.view.MotionEvent;
-
 
 public class Ship {
 	public static Integer MOVEMENT_ADD = 0;
@@ -52,9 +30,9 @@ public class Ship {
 
 	private ShipCollision ShipEvent;
 	private ShipDetails Details;
-	private GL_Image Sprite;
+	private OpenglImage Sprite;
 	
-	private Collision[] Collisions;
+	private CollisionEvent[] Collisions;
 	private Explosion Effect;	
 	private Integer Health = 0;
 	private Boolean damage;
@@ -63,9 +41,9 @@ public class Ship {
 	private Float x = 0f;
 	private Float y = 0f;
 	
-	private GL_TextureManager.Sprite Advanced;
-	private GL_TextureManager.Sprite Medium;
-	private GL_TextureManager.Sprite Basic;
+	private OpenglTextureUnit Advanced;
+	private OpenglTextureUnit Medium;
+	private OpenglTextureUnit Basic;
 	
 	private CURRENT_SHIP Type;
 	
@@ -85,15 +63,15 @@ public class Ship {
 		Effect = new Explosion();
 		Effect.Initialise(30);
 	
-		Sprite = new GL_Image();
+		Sprite = new OpenglImage();
 		Sprite.setPosition(577, 260, 80, 110);
 		Sprite.load("sprites/spr.png", "Ship");
 		
-		GL_Image Sprite2 = new GL_Image();
+		OpenglImage Sprite2 = new OpenglImage();
 		Sprite2.setPosition(577, 260, 80, 110);
 		Sprite2.load("sprites/spr3.png", "Ship2");
-		
-		GL_Image Sprite3 = new GL_Image();
+
+		OpenglImage Sprite3 = new OpenglImage();
 		Sprite3.setPosition(577, 260, 80, 110);
 		Sprite3.load("sprites/spr2.png", "Ship3");
 		
@@ -184,13 +162,13 @@ public class Ship {
 	}
 	
 	public void Initialise(IFactory factory) {
-		Enemys enemys = factory.Request("Enemys");
-		Collisions = new Collision[Enemys.MAX];
+		Enemies enemys = factory.request("Enemys");
+		Collisions = new CollisionEvent[Enemies.MAX];
 		ShipEvent = new ShipCollision(enemys, this);
 		
-		for(int i = 0; i < Enemys.MAX; i++) {
-			Collisions[i] = new Collision();
-			Collisions[i].surfaces(Sprite, (GL_Image)enemys.get(i).GetRawObject(), i);
+		for(int i = 0; i < Enemies.MAX; i++) {
+			Collisions[i] = new CollisionEvent();
+			Collisions[i].surfaces(Sprite, (OpenglImage)enemys.get(i).GetRawObject(), i);
 			Collisions[i].eventType(ShipEvent);
 		}
 
@@ -208,11 +186,11 @@ public class Ship {
 			Dead = true;
 		} else {
 			if(x != 0f && y != 0f) {
-				Vector2D Position = Sprite.getPosition();
-				Vector2D Size = Sprite.getSize();
+				Vector2 Position = Sprite.getPosition();
+				Vector2 Size = Sprite.getSize();
 				
-				float xdist = (Position.x() + (float)Size.x()/2) - x;
-				float ydist = y - (Position.y() + (float)Size.y()/2);
+				float xdist = (Position.getX() + (float)Size.getX()/2) - x;
+				float ydist = y - (Position.getY() + (float)Size.getY()/2);
 				
 				if(xdist >= 0 && ydist >= 0) {
 					Angle = 360 - (float)Math.toDegrees(Math.atan(xdist/ydist));
@@ -240,9 +218,9 @@ public class Ship {
 	
 	public ShipDetails GetDetails() {
 		Details.Rotation = Sprite.getRotation();
-		Details.x = Sprite.getPosition().x();
-		Details.y = Sprite.getPosition().y();
-		Details.r = (float)Sprite.getSize().x()/2;
+		Details.x = Sprite.getPosition().getX();
+		Details.y = Sprite.getPosition().getY();
+		Details.r = Sprite.getSize().getX()/2;
 		return Details;
 	}
 	
@@ -257,7 +235,7 @@ public class Ship {
 		}
 	}
 	
-	public GL_Image GetSprite() {
+	public OpenglImage GetSprite() {
 		return Sprite;
 	}
 
@@ -271,11 +249,11 @@ public class Ship {
 
 	public void draw(RenderQueue renderList) {
 		if(Health > 0) {
-			renderList.pushRenderable(Sprite);
+			renderList.put(Sprite);
 		}
 		
 		for(int i = 0; i < 4; i++) {
-			renderList.pushEffect(Effect.getRaw(i));
+			renderList.put(Effect.getRaw(i));
 		}
 	}
 }

@@ -33,23 +33,26 @@ public class ClickEvent implements IEventListener {
 
         OpenglImage sprite = button.getImage();
 
-        Vector2 Position = sprite.getPosition();
-        Vector2 Size = sprite.getSize();
+        if(sprite != null)
+        {
+            Vector2 Position = sprite.getPosition();
+            Vector2 Size = sprite.getSize();
 
-        if(motionEvent != null && motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-            if(x >= Position.getX() && x <= Position.getX() + Size.getX()) {
-                if(y >= Position.getY() && y <= Position.getY() + Size.getY()) {
-                    manager.triggerEvent(event, false);
-                    OnTouch(null, -1.0f, -1.0f);
+            if(motionEvent != null && motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                if(x >= Position.getX() && x <= Position.getX() + Size.getX()) {
+                    if(y >= Position.getY() && y <= Position.getY() + Size.getY()) {
+                        manager.triggerEvent(event, false);
+                        OnTouch(null, -1.0f, -1.0f);
+                    }
                 }
             }
-        }
 
-        if(holdEvent != null && holdEvent.getAction() == MotionEvent.ACTION_DOWN) {
-            if(x >= Position.getX() && x <= Position.getX() + Size.getX()) {
-                if(y >= Position.getY() && y <= Position.getY() + Size.getY()) {
-                    manager.triggerEvent(event, true);
-                    onLongPress(null, -1, -1);
+            if(holdEvent != null && holdEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                if(x >= Position.getX() && x <= Position.getX() + Size.getX()) {
+                    if(y >= Position.getY() && y <= Position.getY() + Size.getY()) {
+                        manager.triggerEvent(event, true);
+                        onLongPress(null, -1, -1);
+                    }
                 }
             }
         }

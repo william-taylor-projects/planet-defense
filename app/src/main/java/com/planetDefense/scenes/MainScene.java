@@ -24,12 +24,19 @@ package com.planetDefense.scenes;
  *     from any source distribution.
  *     
  */
-import com.planetDefense.TaloniteRenderer.RenderQueue;
+import com.framework.IFactory;
+import com.framework.audio.AudioClip;
+import com.framework.core.Scene;
+import com.framework.core.SceneManager;
+import com.framework.graphics.Font;
+import com.framework.graphics.Label;
 import android.view.MotionEvent;
 
+import com.framework.graphics.RenderQueue;
 import com.planetDefense.activity.MainActivity;
-import com.planetDefense.objects.Enemys;
+import com.planetDefense.objects.Enemies;
 import com.planetDefense.objects.Enemy;
+import com.planetDefense.objects.Statistics;
 
 /**
  *  This is the main scene for the game.
@@ -44,7 +51,7 @@ public class MainScene extends Scene {
 	private MainObjects objects;
 	
 	/** A label which renders when a wave has completed */
-	private LabelLine waveDoneString;
+	private Label waveDoneString;
 	
 	/** Just turn true when a wave has completed */
 	private Boolean completed;
@@ -62,16 +69,16 @@ public class MainScene extends Scene {
 	@Override
 	public void onCreate(IFactory factory) {
 		/** Request the LavelObjects from the frameworks fractory */
-		objects = factory.Request("LevelObjects");
-		objects.Initialise(factory);
+		objects = factory.request("LevelObjects");
+		objects.initialise(factory);
 		
 		/** get the audio from the factory & just init the variable */
-		audio = factory.Request("BackgroundMusic"); 
+		audio = factory.request("BackgroundMusic");
 		completed = false;
 		
-		waveDoneString = new LabelLine(LabelEngine.Get("large"), "Wave Completed");
-		waveDoneString.Load(0, 0);
-		waveDoneString.SetInitialPosition(640 - waveDoneString.GetWidth()/2, 325);
+		waveDoneString = new Label(Font.get("large"), "Wave Completed");
+		waveDoneString.load(0, 0);
+		waveDoneString.setInitialPosition(640 - waveDoneString.getWidth() / 2, 325);
 	}
 	
 	/** Called to update game.objects, positions etc */
@@ -81,10 +88,12 @@ public class MainScene extends Scene {
 		if(objects.getRemainingEnemys() == 0) {
 			/** Doing this will indicate that the waveDoneString should be drawn */
 			completed = true;
-		} objects.Update();
+		}
+
+		objects.update();
 		
 		/** Play the audio this function also updates the volume */
-		audio.Play();
+		audio.play();
 		
 		/** If the wave is over... */
 		if(completed) {
@@ -93,15 +102,15 @@ public class MainScene extends Scene {
 			
 			/** But only if the player survivde should is show & update the string */
 			if(objects.Alive()) {
-				waveDoneString.SetColour(1f, 1f, 1f, alpha);
-				waveDoneString.Update();
+				waveDoneString.setColour(1f, 1f, 1f, alpha);
+				waveDoneString.update();
 			}
 			
 			/** When the fade out effect has finished we increase the difficulty */
 			if(alpha <= 0.0F) {
 				/** Increment the amount of enemys that spawn as well as increase the speed */
-				if(Enemys.STARTING_ENEMYS + Enemys.INCREMENT_VALUE < Enemys.MAX) {
-					Enemys.STARTING_ENEMYS += Enemys.INCREMENT_VALUE;
+				if(Enemies.STARTING_ENEMYS + Enemies.INCREMENT_VALUE < Enemies.MAX) {
+					Enemies.STARTING_ENEMYS += Enemies.INCREMENT_VALUE;
 					Enemy.SPEED += Enemy.INCREMENT;
 				}
 				
@@ -124,7 +133,7 @@ public class MainScene extends Scene {
 		
 		/** Then if a wave has been completed we show push the waveDoneString as well */
 		if(completed) {
-			renderList.pushRenderable(waveDoneString);
+			renderList.put(waveDoneString);
 		} 
 	}
 	
@@ -141,7 +150,7 @@ public class MainScene extends Scene {
 		/** First call the game.objects onEnter function handler */
 		objects.onEnter();
 		
-		audio.Restart();
+		audio.restart();
 		audio.setVolume(1.0F, 1.0F);
 	}
 	
@@ -157,14 +166,14 @@ public class MainScene extends Scene {
 		
 		/** If we exit back to the main menu or the game over state we reset the game */
 		if(nextScene == MainActivity.GAMEOVER || nextScene == MainActivity.MENU) {
-			((UpgradeState)SceneManager.get().getScene(MainActivity.UPGRADE)).reset();
+			((UpgradeState) SceneManager.get().getScene(MainActivity.UPGRADE)).reset();
 			reset(nextScene);
 		}
 	}
 	
 	/** Simply resets all variables to there initial state */
 	private void reset(int id) {
-		Enemys.STARTING_ENEMYS = 5;
+		Enemies.STARTING_ENEMYS = 5;
 		Enemy.SPEED = 3.0F;
 		objects.Reset(id);
 		completed = false;

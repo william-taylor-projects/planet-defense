@@ -1,38 +1,12 @@
 package com.planetDefense.objects;
 
-/**
- * Copyright (c) 2014 - William Taylor <wi11berto@yahoo.co.uk>
- *
- *	This software is provided 'as-is', without any express or implied warranty. 
- *  In no event will the authors be held liable for any damages arising from 
- *  the use of this software. Permission is granted to anyone to use this 
- *  software for any purpose, including commercial applications, and to 
- *  alter it and redistribute it freely, subject to the following 
- *  restrictions:
- *
- *	1. The origin of this software must not be misrepresented; 
- *     you must not claim that you wrote the original software. 
- *	   If you use this software in a product, an acknowledgment 
- *     in the product documentation would be appreciated 
- *     but is not required.
- *
- *  2. Altered source versions must be plainly marked as such, 
- *     and must not be misrepresented as being the original 
- *     software.
- *  
- *  3. This notice may not be removed or altered 
- *     from any source distribution.
- *     
- */
+import com.framework.core.CollisionEvent;
+import com.framework.core.EventManager;
+import com.framework.core.SceneManager;
+import com.framework.graphics.RenderQueue;
 import com.planetDefense.events.UsePowerUp;
 import java.util.*;
-
-import com.planetDefense.Collision;
-import com.planetDefense.EventManager;
 import com.planetDefense.activity.MainActivity;
-import com.planetDefense.SceneManager;
-import com.planetDefense.TaloniteRenderer.RenderQueue;
-
 
 public class PowerUps {
 	private static final Integer NUKE_CHANGES = 1;
@@ -45,8 +19,8 @@ public class PowerUps {
 	private Vector<PowerUp> Powerups = new Vector<PowerUp>();
 	private Random Rand = new Random();
 	
-	private UsePowerUp CollisionEvent;
-	private Collision PowerUpCollision;
+	private UsePowerUp userPowerUp;
+	private CollisionEvent PowerUpCollision;
 	private PowerUp CurrentPowerUp;
 	private Timer TimerOutTimer;
 	private Boolean TimeOut;
@@ -56,7 +30,7 @@ public class PowerUps {
 	private PowerUp Move;
 	private PowerUp Nuke;
 	
-	public PowerUps(Ship s, Enemys e) {
+	public PowerUps(Ship s, Enemies e) {
 		TimeOut = false;
 		Player = s;
 		
@@ -79,10 +53,10 @@ public class PowerUps {
 		CurrentPowerUp = Powerups.get(Rand.nextInt(Powerups.size()));
 		CurrentPowerUp.enable();
 		
-		CollisionEvent = new UsePowerUp(CurrentPowerUp);
+		userPowerUp = new UsePowerUp(CurrentPowerUp);
 		
-		PowerUpCollision = new Collision();
-		PowerUpCollision.eventType(CollisionEvent);
+		PowerUpCollision = new CollisionEvent();
+		PowerUpCollision.eventType(userPowerUp);
 		PowerUpCollision.surfaces(Player.GetSprite(), CurrentPowerUp.getSprite());
 		
 		EventManager.get().addListener(PowerUpCollision);
@@ -111,7 +85,7 @@ public class PowerUps {
 			
 			@Override
 			public void run() {
-				if(SceneManager.get().getLocation() == MainActivity.LEVEL && localID == currentSpawnNumber) {				
+				if(SceneManager.get().getLocation() == MainActivity.LEVEL && localID == currentSpawnNumber) {
 					Integer spawn_x = Rand.nextInt(300) + 100; // 200;
 					Integer spawn_y = Rand.nextInt(150) + 100;
 					
@@ -127,7 +101,7 @@ public class PowerUps {
 					CurrentPowerUp.dropItem(spawn_x, spawn_y);
 					CurrentPowerUp.enable();
 					
-					CollisionEvent.ChangePowerUp(CurrentPowerUp);
+					userPowerUp.ChangePowerUp(CurrentPowerUp);
 					
 					PowerUpCollision.surfaces(Player.GetSprite(), CurrentPowerUp.getSprite());
 				}
@@ -165,6 +139,6 @@ public class PowerUps {
 	}
 
 	public void draw(RenderQueue renderList) {
-		renderList.pushRenderable(CurrentPowerUp.getSprite());
+		renderList.put(CurrentPowerUp.getSprite());
 	}
 }

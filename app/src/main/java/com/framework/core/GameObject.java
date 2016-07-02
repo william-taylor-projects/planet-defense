@@ -43,6 +43,7 @@ public class GameObject extends Application implements OnGestureListener {
 
         renderingThread = new GLSurfaceView(this);
         renderingThread.setEGLContextClientVersion(2);
+        renderingThread.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         renderingThread.setRenderer(new OpenglRenderer());
         renderingThread.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
         renderingThread.setPreserveEGLContextOnPause(true);

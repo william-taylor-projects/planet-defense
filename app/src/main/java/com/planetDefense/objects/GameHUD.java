@@ -24,8 +24,17 @@ package com.planetDefense.objects;
  *     from any source distribution.
  *     
  */
-import com.planetDefense.TaloniteRenderer.RenderQueue;
+import com.framework.IContainer;
 
+import com.framework.IFactory;
+import com.framework.core.ClickEvent;
+import com.framework.core.EventManager;
+import com.framework.graphics.Button;
+import com.framework.graphics.Font;
+import com.framework.graphics.Image;
+import com.framework.graphics.Label;
+import com.framework.graphics.RenderQueue;
+import com.framework.opengl.OpenglImage;
 import com.planetDefense.activity.MainActivity;
 import com.planetDefense.events.StateClick;
 
@@ -36,7 +45,7 @@ public class GameHUD implements IContainer {
 	private PlayerHealth PlayerHealth;
 	private EarthHealth EarthHealth;
 	private BackButton BackButton;
-	private GameImage BackPlate;
+	private Image BackPlate;
 	private WaveNumber Number;
 	private PlayerCash Cash;
 	
@@ -48,7 +57,7 @@ public class GameHUD implements IContainer {
 		Number = new WaveNumber();
 		Cash = new PlayerCash();
 		
-		BackPlate = new GameImage("sprites/health outline.png");
+		BackPlate = new Image("sprites/health outline.png");
 		BackPlate.setPosition(-20, 625, 375, 175);
 	}
 	
@@ -78,8 +87,8 @@ public class GameHUD implements IContainer {
 	}
 	
 	@Override
-	public void StackSubObjects(IFactory factory) {
-		factory.Stack(Number, "WaveText");
+	public void stackSubObjects(IFactory factory) {
+		factory.stack(Number, "WaveText");
 	}
 	
 	public void SetLevel(int i) {
@@ -87,30 +96,30 @@ public class GameHUD implements IContainer {
 	}
 
 	public void draw(RenderQueue renderList) {
-		renderList.pushRenderable(BackButton.Sprite);
-		renderList.pushRenderable(BackPlate);
-		renderList.pushRenderable(PlayerHealth.Sprite);
-		renderList.pushRenderable(EarthHealth.Sprite);
-		renderList.pushRenderable(UpgradeButton.Sprite);
-		renderList.pushRenderable(Number.Text);
-		renderList.pushRenderable(Cash.Text);
+		renderList.put(BackButton.Sprite);
+		renderList.put(BackPlate);
+		renderList.put(PlayerHealth.Sprite);
+		renderList.put(EarthHealth.Sprite);
+		renderList.put(UpgradeButton.Sprite);
+		renderList.put(Number.getWaveText());
+		renderList.put(Cash.Text);
 	}
 	
 	public class BackButton {
-		public GameButton Sprite;
-		public Click Event;
+		public Button Sprite;
+		public ClickEvent Event;
 
 		public BackButton() {
-			Sprite = new GameButton(LabelEngine.Get("small"));
-			Sprite.SetText("Quit", 1225, 10, 200, 65);
+			Sprite = new Button(Font.get("small"));
+			Sprite.setText("Quit", 1225, 10, 200, 65);
 			
-			Event = new Click(Sprite);
+			Event = new ClickEvent(Sprite);
 			Event.eventType(new StateClick(MainActivity.MENU));
 			EventManager.get().addListener(Event);
 		}
 		
 		public void Update() {
-			Sprite.Update();
+			Sprite.update();
 		}
 		
 		public void OnTouch(MotionEvent e, float x, float y) {
@@ -119,11 +128,11 @@ public class GameHUD implements IContainer {
 	}
 	
 	public class EarthHealth {
-		public GL_Image Sprite;
+		public OpenglImage Sprite;
 		public Earth Earth;
 		
 		public EarthHealth() {
-			Sprite = new GL_Image();
+			Sprite = new OpenglImage();
 			Sprite.load("sprites/health.png", "Health");
 			Sprite.setPosition(0, 750, 300, 20);
 		}
@@ -142,43 +151,45 @@ public class GameHUD implements IContainer {
 		}
 
 		public void Initialise(IFactory factory) {
-			Earth = factory.Request("Earth");
+			Earth = factory.request("Earth");
 		}
 	}
 	
 	public class PlayerCash {
-		private LabelLine Text;
+		private Label Text;
 		private Integer Cash;
 		
 		public PlayerCash() {
-			Text = new LabelLine(LabelEngine.Get("small"), "$0");
-			Text.Load(10, 665);
-			Text.SetColour(1f, 0f, 0f, 1f);	
+			Text = new Label(Font.get("small"), "$0");
+			Text.load(10, 665);
+			Text.setColour(1f, 0f, 0f, 1f);
 			Cash = 0;
 		}
 		
 		public void Update() {
 			if(Cash != Ship.CASH) {
 				Cash = Ship.CASH;
-				Text.Text("$" + Ship.CASH);
-				Text.Load(10, 665);
-				Text.SetColour(1f, 0f, 0f, 1f);
-			} Text.Update();
+				Text.text("$" + Ship.CASH);
+				Text.load(10, 665);
+				Text.setColour(1f, 0f, 0f, 1f);
+			}
+
+			Text.update();
 		}
 	}
 	
 	public class PlayerHealth {
-		public GL_Image Sprite;
+		public OpenglImage Sprite;
 		public Ship Player;
 		
 		public PlayerHealth() {
-			Sprite = new GL_Image();
+			Sprite = new OpenglImage();
 			Sprite.load("sprites/health.png", "Health");
 			Sprite.setPosition(0, 720, 225, 20);
 		}
 		
 		public void Initialise(IFactory factory) {
-			Player = factory.Request("Ship");
+			Player = factory.request("Ship");
 		}
 		
 		public Object GetRawObject() {
@@ -197,20 +208,20 @@ public class GameHUD implements IContainer {
 	
 	
 	public class UpgradeButton {
-		public GameButton Sprite;
-		public Click Event;
+		public Button Sprite;
+		public ClickEvent Event;
 
 		public UpgradeButton() {
-			Sprite = new GameButton(LabelEngine.Get("small"));
-			Sprite.SetText("Upgrades", 1185, 725, 300, 65);
+			Sprite = new Button(Font.get("small"));
+			Sprite.setText("Upgrades", 1185, 725, 300, 65);
 		
-			Event = new Click(Sprite);
+			Event = new ClickEvent(Sprite);
 			Event.eventType(new StateClick(4));
 			EventManager.get().addListener(Event);
 		}
 		
 		public void Update() {
-			Sprite.Update();
+			Sprite.update();
 		}
 		
 		public void OnTouch(MotionEvent e, float x, float y) {

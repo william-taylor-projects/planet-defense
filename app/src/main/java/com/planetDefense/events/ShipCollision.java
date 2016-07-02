@@ -2,24 +2,23 @@ package com.planetDefense.events;
 
 import java.util.TimerTask;
 import java.util.Timer;
-import java.util.Vector;
 
 import com.framework.IEvent;
 import com.framework.core.CollisionEvent;
 import com.framework.math.Vector2;
 import com.framework.opengl.OpenglImage;
 import com.planetDefense.objects.Explosion;
-import com.planetDefense.objects.Enemys;
+import com.planetDefense.objects.Enemies;
 import com.planetDefense.objects.Ship;
 
 
 public class ShipCollision implements IEvent, CollisionEvent.CollisionArray {
 	private Explosion effect;
-	private Enemys enemy;
+	private Enemies enemy;
 	private Ship ship;
 	private int num;
 
-	public ShipCollision(Enemys enemy, Ship ship) {
+	public ShipCollision(Enemies enemy, Ship ship) {
 		this.enemy = enemy;
 		this.ship = ship;
 	}

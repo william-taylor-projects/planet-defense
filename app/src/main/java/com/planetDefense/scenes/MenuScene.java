@@ -24,72 +24,56 @@ package com.planetDefense.scenes;
  *     from any source distribution.
  *     
  */
-import com.planetDefense.IFactory;
-import com.planetDefense.TaloniteRenderer.RenderQueue;
+import com.framework.IFactory;
+import com.framework.audio.AudioClip;
+import com.framework.core.ClickEvent;
+import com.framework.core.EventManager;
+import com.framework.core.ExitEvent;
+import com.framework.core.Scene;
 import android.view.MotionEvent;
 
+import com.framework.graphics.Button;
+import com.framework.graphics.Font;
+import com.framework.graphics.Image;
+import com.framework.graphics.Label;
+import com.framework.graphics.RenderQueue;
 import com.planetDefense.activity.MainActivity;
 import com.planetDefense.events.MuteEvent;
 import com.planetDefense.events.StateClick;
 
-/**
- *  This is menu scene which is allows
- *  the user to naviagate to play the game
- *  view stats or play the tutorial again
- *  
- * @version : final version for release
- * @author : William Taylor
- */
 public class MenuScene extends Scene {
-	/** The menus background texture */
-	private GameImage background;
-	
-	/** A reference to the inner classes buttons */
+	private Image background;
 	private MenuButtons buttons;
-	
-	/** The the quit button for the scene */
-	private GameButton quit;
-	
-	/** The tutorial button for the scene */
-	private GameButton tutorial;
-	
-	/** The string title for the scene */
-	private LabelLine title;
-	
-	/** The menu background music for this scene */
+	private Button quit;
+	private Button tutorial;
+	private Label title;
 	private AudioClip audio;
-	
-	/** The background music for the main scene */
 	private AudioClip music;
-	
-	/** The event that activates when the tutorial button is touched */
-	private Click tutorialEvent;
-	
-	/** The event that is triggered when the quit button is pressed */
-	private Click event;
+	private ClickEvent tutorialEvent;
+	private ClickEvent event;
 	
 	/** onCreate method is called when the scene is created */
 	@Override
 	public void onCreate(IFactory factory) {
 		/** Request the following assets are pulled from the frameworks factory */
-		background = factory.Request("MenuBackground");
-		music = factory.Request("BackgroundMusic");
-		quit = factory.Request("BackButton");
-		title = factory.Request("MenuText");
+		background = factory.request("MenuBackground");
+		music = factory.request("BackgroundMusic");
+		quit = factory.request("BackButton");
+		title = factory.request("MenuText");
 		
 		/** Initialise the inner button class */
 		buttons = new MenuButtons();
 		buttons.initialise(factory);
 		
 		/** Setup the tutorial button and its event */
-		tutorial = new GameButton(LabelEngine.Get("Small"));
-		tutorial.SetText("View Tutorial ?", 150, 0, 200, 50);
+		tutorial = new Button(Font.get("Small"));
+		tutorial.setText("View Tutorial ?", 150, 0, 200, 50);
 	
-		tutorialEvent = new Click(tutorial);
+		tutorialEvent = new ClickEvent(tutorial);
 		tutorialEvent.eventType(new StateClick(MainActivity.TUTORIAL));
 		
 		/** Setup the quit event */
-		event = new Click(quit);
+		event = new ClickEvent(quit);
 		event.eventType(new ExitEvent());
 		
 		/** Setup the background music */
@@ -107,23 +91,23 @@ public class MenuScene extends Scene {
 	public void onUpdate() {
 		/** Just update all the individual game.objects */
 		background.update();
-		tutorial.Update();
+		tutorial.update();
 		buttons.update();
-		title.Update();
-		quit.Update();
+		title.update();
+		quit.update();
 		
 		/** We play the audio and calling this on each update will also change the volume */
-		audio.Play();
+		audio.play();
 	}
 	
 	/** onRender called when we are rendering the scene */
 	@Override
 	public void onRender(RenderQueue renderList) {
 		/** Just add all the game.objects to the queue */
-		renderList.pushRenderable(background);		
-		renderList.pushRenderable(tutorial);
-		renderList.pushRenderable(title);
-		renderList.pushRenderable(quit);
+		renderList.put(background);
+		renderList.put(tutorial);
+		renderList.put(title);
+		renderList.put(quit);
 	
 		/** Then call the onRender function for the buttons inner class */
 		buttons.onRender(renderList);
@@ -147,7 +131,7 @@ public class MenuScene extends Scene {
 		/** If we go to the main level stop the menu background music */
 		if(nextScene == MainActivity.LEVEL) {
 			audio.setVolume(0.0F, 0.0F);
-			music.Restart();
+			music.restart();
 		}
 		
 		/** remove the listener from the EventManager */
@@ -162,7 +146,7 @@ public class MenuScene extends Scene {
 		
 		if(previousScene == MainActivity.LEVEL) {
 			audio.setVolume(1.0F, 1.0F);
-			audio.Restart();
+			audio.restart();
 		}
 	}
 	
@@ -174,38 +158,38 @@ public class MenuScene extends Scene {
 	 */
 	public class MenuButtons {
 		/** The array of menu buttons Play Credits etc */
-		private GameButton[] buttons = new GameButton[3];
+		private Button[] buttons = new Button[3];
 		
 		/** The array of game.events trigged by the button array above */
-		private Click[] events = new Click[3];
+		private ClickEvent[] events = new ClickEvent[3];
 		
 		/** The mute button */
-		private GameButton mute;
+		private Button mute;
 		
 		/** The mute event for the button above  */
-		private Click muteEvent;
+		private ClickEvent muteEvent;
 	
 		/** The initialise function which sets up the object */
 		public void initialise(IFactory factory) {		
 			/** get the font for the buttons */
-			LabelEngine medium = LabelEngine.Get("medium");
+			Font medium = Font.get("medium");
 			for(int i = 0; i < 3; i++) {
-				buttons[i] = new GameButton(medium);
-				events[i] = new Click(buttons[i]);
+				buttons[i] = new Button(medium);
+				events[i] = new ClickEvent(buttons[i]);
 			}
 			
 			/** Setup the mute button */
-			mute = new GameButton();
-			mute.SetSprite("sprites/audio.png", 1180, 0, 100, 100);
+			mute = new Button();
+			mute.setSprite("sprites/audio.png", 1180, 0, 100, 100);
 			
 			/** Setup its event when pressed */
-			muteEvent = new Click(mute);
+			muteEvent = new ClickEvent(mute);
 			muteEvent.eventType(new MuteEvent());
 			
 			/** Set the button size etc */
-			buttons[0].SetText("Start Game", 640, 425, 200, 100);
-			buttons[1].SetText("Statistics", 640, 250, 200, 100);
-			buttons[2].SetText("Credits", 640, 75, 200, 100);
+			buttons[0].setText("Start Game", 640, 425, 200, 100);
+			buttons[1].setText("Statistics", 640, 250, 200, 100);
+			buttons[2].setText("Credits", 640, 75, 200, 100);
 			
 			/** Give them there game.events */
 			events[0].eventType(new StateClick(MainActivity.LEVEL));
@@ -229,20 +213,20 @@ public class MenuScene extends Scene {
 		
 		/** The update function just updates all buttons */
 		public void update() {
-			mute.Update();
+			mute.update();
 			/** Just go through the array and update the button simples */
 			for(int i = 0; i < 3; i++) {
-				buttons[i].Update();
+				buttons[i].update();
 			}
 		}
 		
 		/** The onRender function just pushes each button to the renderQueue */
 		public void onRender(RenderQueue renderQueue) {
-			renderQueue.pushRenderable(mute);
+			renderQueue.put(mute);
 			
 			/** Just iterate through the array and push to the queue */
 			for(int i = 0; i < 3; i++) {
-				renderQueue.pushRenderable(buttons[i]);
+				renderQueue.put(buttons[i]);
 			}
 		}
 	}

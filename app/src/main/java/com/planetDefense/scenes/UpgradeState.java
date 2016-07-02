@@ -1,99 +1,52 @@
 package com.planetDefense.scenes;
 
-/**
- * Copyright (c) 2014 - William Taylor <wi11berto@yahoo.co.uk>
- *
- *	This software is provided 'as-is', without any express or implied warranty. 
- *  In no event will the authors be held liable for any damages arising from 
- *  the use of this software. Permission is granted to anyone to use this 
- *  software for any purpose, including commercial applications, and to 
- *  alter it and redistribute it freely, subject to the following 
- *  restrictions:
- *
- *	1. The origin of this software must not be misrepresented; 
- *     you must not claim that you wrote the original software. 
- *	   If you use this software in a product, an acknowledgment 
- *     in the product documentation would be appreciated 
- *     but is not required.
- *
- *  2. Altered source versions must be plainly marked as such, 
- *     and must not be misrepresented as being the original 
- *     software.
- *  
- *  3. This notice may not be removed or altered 
- *     from any source distribution.
- *     
- */
-import com.planetDefense.TaloniteRenderer.RenderQueue;
+import com.framework.IEvent;
+import com.framework.IFactory;
+import com.framework.IUiEvent;
+import com.framework.core.ClickEvent;
+import com.framework.core.EventManager;
+import com.framework.core.Scene;
+import com.framework.dialogs.MessageBox;
+import com.framework.graphics.Button;
+import com.framework.graphics.Font;
+import com.framework.graphics.Image;
+import com.framework.graphics.Label;
+import com.framework.graphics.RenderQueue;
 import com.planetDefense.objects.Ship.CURRENT_SHIP;
 import android.view.MotionEvent;
 
 import com.planetDefense.objects.*;
 import com.planetDefense.events.*;
 
-/**
- *  This is the main scene for the game.
- *  All its game.objects are stored in the Main
- *  Objects class for more clear code
- *  
- * @version : final version for release
- * @author : William Taylor
- */
 public class UpgradeState extends Scene {
-	/** Some static final variables that are used as settings for this state */
 	private static final Integer REPAIR_EARTH_COST = 2000;
 	private static final Integer REPAIR_SHIP_COST = 1000;
-
 	private static final Integer PERK_THREE_COST = 1000;
 	private static final Integer PERK_TWO_COST = 1000;
 	private static final Integer PERK_ONE_COST = 1000;
-	
 	private static final Integer SHIP_THREE_COST = 2000;
 	private static final Integer SHIP_TWO_COST = 1000;
 	private static final Integer SHIP_ONE_COST = 100;
-	
-	/** A reference to a inner class that manages all the buttons in the scene */
-	private UpgradeButtons upgradeButtons;
-	
-	/** A reference to a inner class that manages all the text in the scene */
-	private UpgradeText upgradeText;
-	
-	/** The background texture for this scene */
-	private GameImage background;
-	
-	/** The back button for the scene  */
-	private GameButton backButton;
-	
-	/** perk three's icon */
-	private GameImage perkThree;
-	
-	/** perk two's icon */
-	private GameImage perkTwo;
-	
-	/** perk one's icon */
-	private GameImage perkOne;
-	
-	/** ship three's icon */
-	private GameImage shipThree;
-	
-	/** ship two's icon */
-	private GameImage shipTwo;
-	
-	/** ship one's icon*/
-	private GameImage shipOne;
-	
-	/** The back event that is fired */
-	private Click event;
 
-	/** onCreate function which is called when the scene is first created*/
+	private UpgradeButtons upgradeButtons;
+	private UpgradeText upgradeText;
+	private ClickEvent event;
+	private Button backButton;
+	private Image background;
+	private Image perkThree;
+	private Image perkTwo;
+	private Image perkOne;
+	private Image shipThree;
+	private Image shipTwo;
+	private Image shipOne;
+
 	@Override
 	public void onCreate(IFactory factory) {
-		/** Get the following assets from the frameworks factory */
-		background = factory.Request("MenuBackground");
-		backButton = factory.Request("BackButton");
+		background = factory.request("MenuBackground");
+		backButton = factory.request("BackButton");
 		
 		/** Setup the game.events */
-		event = new Click(backButton);
+		event = new ClickEvent(backButton);
 		event.eventType(new StateClick(2));
 		
 		/** Setup the inner classes that manage certain elements */
@@ -102,54 +55,44 @@ public class UpgradeState extends Scene {
 		
 		upgradeText = new UpgradeText();
 		upgradeText.initialise(factory);
-		
-		/** Then setup the icons for the perks */
-		perkThree = new GameImage("sprites/armour.png");
-		perkTwo = new GameImage("sprites/reload.png");
-		perkOne = new GameImage("sprites/money.png");
-		
-		/** setup the positions */
+
+		perkThree = new Image("sprites/armour.png");
+		perkTwo = new Image("sprites/reload.png");
+		perkOne = new Image("sprites/money.png");
+
 		perkThree.setPosition(1100, 250, 75, 75);
 		perkTwo.setPosition(1100, 150, 75, 75);
 		perkOne.setPosition(1100, 50, 75, 75);
-		
-		/** setup the icons for the ships */
-		shipThree = new GameImage("sprites/spr.png");
-		shipTwo = new GameImage("sprites/spr3.png");
-		shipOne = new GameImage("sprites/spr2.png");
-		
-		/** setup the positions */
+
+		shipThree = new Image("sprites/spr.png");
+		shipTwo = new Image("sprites/spr3.png");
+		shipOne = new Image("sprites/spr2.png");
+
 		shipThree.setPosition(200, 400, 80, 110);
 		shipTwo.setPosition(200, 275, 80, 110);
 		shipOne.setPosition(200, 150, 80, 110);
 	}
 
-	/** onTouchEvent handler which then passes the data to the inner classes & event */
 	@Override
 	public void onTouch(MotionEvent e, int x, int y) {
 		upgradeButtons.onTouch(e, x, y);
 		event.OnTouch(e, x, y);
 	}
-	
-	/** onRender function just pushes all the game.objects to the queue */
+
 	@Override
 	public void onRender(RenderQueue renderList) {
-		/** insert the background and button first */
-		renderList.pushRenderable(background);
-		renderList.pushRenderable(backButton);
-		
-		/** then call the inner classes onRender function */
+		renderList.put(background);
+		renderList.put(backButton);
+
 		upgradeButtons.onRender(renderList);
 		upgradeText.onRender(renderList);
-		
-		/** then overlay all the icons for the scene */
-		renderList.pushRenderable(shipThree);
-		renderList.pushRenderable(shipTwo);
-		renderList.pushRenderable(shipOne);
-		
-		renderList.pushRenderable(perkThree);
-		renderList.pushRenderable(perkTwo);
-		renderList.pushRenderable(perkOne);
+
+		renderList.put(shipThree);
+		renderList.put(shipTwo);
+		renderList.put(shipOne);
+		renderList.put(perkThree);
+		renderList.put(perkTwo);
+        renderList.put(perkOne);
 	}
 	
 	/** update function simply updates all the elements in the scene */
@@ -159,7 +102,7 @@ public class UpgradeState extends Scene {
 		upgradeButtons.update();
 		upgradeText.update();
 		background.update();
-		backButton.Update();
+		backButton.update();
 		
 		/** The the ship icons */
 		shipThree.update();
@@ -172,17 +115,13 @@ public class UpgradeState extends Scene {
 		perkOne.update();
 	}
 
-	/** this function is called when the state is entered */
 	@Override
-	public void onEnter(Integer nextScene) {		
-		/** & register the event with the event manager */
-		EventManager.get().addListener(event);	
+	public void onEnter(Integer nextScene) {
+		EventManager.get().addListener(event);
 	}
 
-	/** this function is called when the state is exited */
 	@Override
 	public void onExit(Integer nextScene) {
-		/** We remove the event from the event manager */
 		EventManager.get().removeListener(event);	
 	}
 	
@@ -209,24 +148,24 @@ public class UpgradeState extends Scene {
 	 * @author William Taylor
 	 */
 	public class UpgradeButtons {
-		private GameButton buyShipThree;
-		private GameButton buyShipTwo;
-		private GameButton buyShipOne;
+		private Button buyShipThree;
+		private Button buyShipTwo;
+		private Button buyShipOne;
 		
-		private GameButton buyPerkThree;
-		private GameButton buyPerkTwo;
-		private GameButton buyPerkOne;
+		private Button buyPerkThree;
+		private Button buyPerkTwo;
+		private Button buyPerkOne;
 		
-		private GameButton buyPlayerHealth;
-		private GameButton buyEarthHealth;
+		private Button buyPlayerHealth;
+		private Button buyEarthHealth;
 		
-		private Click buyShipEvent[] = new Click[3];
-		private Click repairEvent[] = new Click[2];
-		private Click perkEvent[] = new Click[3];
+		private ClickEvent buyShipEvent[] = new ClickEvent[3];
+		private ClickEvent repairEvent[] = new ClickEvent[2];
+		private ClickEvent perkEvent[] = new ClickEvent[3];
 		private Earth earth;
 		private Ship Player;
 		
-		private class ShipChange implements IEvent, UiEvent {
+		private class ShipChange implements IEvent, IUiEvent {
 			private CURRENT_SHIP newShip;
 			private Integer shipCost;
 			
@@ -259,7 +198,7 @@ public class UpgradeState extends Scene {
 				;
 			}
 		}		
-		private class RepairItem implements IEvent, UiEvent {
+		private class RepairItem implements IEvent, IUiEvent {
 			private Boolean repairShip;
 			private Integer actionCost;
 			
@@ -304,7 +243,7 @@ public class UpgradeState extends Scene {
 				;
 			}
 		}
-		private class BuyPerk implements IEvent, UiEvent {
+		private class BuyPerk implements IEvent, IUiEvent {
 			private Boolean used;
 			private Integer cost;
 			private String type;
@@ -356,51 +295,51 @@ public class UpgradeState extends Scene {
 		/** Basic contructor allocates all the memory needed for all buttons & game.events */
 		public UpgradeButtons() {
 			/** get the font needed for the buttons */
-			LabelEngine e = LabelEngine.Get("small");
+			Font e = Font.get("small");
 			
 			/** allocate memory for all the buttons */
-			buyPlayerHealth = new GameButton(e);
-			buyEarthHealth = new GameButton(e);
-			buyShipThree = new GameButton(e);
-			buyPerkThree = new GameButton(e);
-			buyShipOne = new GameButton(e);
-			buyPerkOne = new GameButton(e);
-			buyPerkTwo = new GameButton(e);
-			buyShipTwo = new GameButton(e);
+			buyPlayerHealth = new Button(e);
+			buyEarthHealth = new Button(e);
+			buyShipThree = new Button(e);
+			buyPerkThree = new Button(e);
+			buyShipOne = new Button(e);
+			buyPerkOne = new Button(e);
+			buyPerkTwo = new Button(e);
+			buyShipTwo = new Button(e);
 	
 			/** Setup the buy ship game.events and pass the button which activates them */
-			buyShipEvent[2] = new Click(buyShipThree);
-			buyShipEvent[1] = new Click(buyShipTwo);
-			buyShipEvent[0] = new Click(buyShipOne);	
+			buyShipEvent[2] = new ClickEvent(buyShipThree);
+			buyShipEvent[1] = new ClickEvent(buyShipTwo);
+			buyShipEvent[0] = new ClickEvent(buyShipOne);
 			
 			/** Setup the buy perk game.events and pass the button which activates them */
-			perkEvent[0] = new Click(buyPerkOne);
-			perkEvent[1] = new Click(buyPerkTwo);
-			perkEvent[2] = new Click(buyPerkThree);
+			perkEvent[0] = new ClickEvent(buyPerkOne);
+			perkEvent[1] = new ClickEvent(buyPerkTwo);
+			perkEvent[2] = new ClickEvent(buyPerkThree);
 			
 			/** Setup the repair game.events and pass the button which activates them */
-			repairEvent[1] = new Click(buyPlayerHealth);
-			repairEvent[0] = new Click(buyEarthHealth);
+			repairEvent[1] = new ClickEvent(buyPlayerHealth);
+			repairEvent[0] = new ClickEvent(buyEarthHealth);
 		}	
 	
 		/** initialise function that setups all the object needed for drawing */
 		public void initialise(IFactory factory) {
 			/** request these elements from the factory */
-			earth = factory.Request("Earth");
-			Player = factory.Request("Ship");
+			earth = factory.request("Earth");
+			Player = factory.request("Ship");
 			
 			/** setup the text for each button  */
-			buyShipThree.SetText("Buy Ship $" + SHIP_ONE_COST, 500, 425, 200, 125);
-			buyShipTwo.SetText("Buy Ship $" + SHIP_TWO_COST, 500, 300, 200, 125);
-			buyShipOne.SetText("Buy Ship $" + SHIP_THREE_COST, 500, 175, 200, 125);
+			buyShipThree.setText("Buy Ship $" + SHIP_ONE_COST, 500, 425, 200, 125);
+			buyShipTwo.setText("Buy Ship $" + SHIP_TWO_COST, 500, 300, 200, 125);
+			buyShipOne.setText("Buy Ship $" + SHIP_THREE_COST, 500, 175, 200, 125);
 			
 			/** setup the text for each button  */ 
-			buyPerkThree.SetText("Amour Plating $" + PERK_ONE_COST, 900, 250, 400, 50);
-			buyPerkOne.SetText("Speed Fire $" + PERK_TWO_COST, 900, 150, 400, 50);
-			buyPerkTwo.SetText("Quick Money $" + PERK_THREE_COST, 900, 50, 400, 50);
+			buyPerkThree.setText("Amour Plating $" + PERK_ONE_COST, 900, 250, 400, 50);
+			buyPerkOne.setText("Speed Fire $" + PERK_TWO_COST, 900, 150, 400, 50);
+			buyPerkTwo.setText("Quick Money $" + PERK_THREE_COST, 900, 50, 400, 50);
 			
-			buyPlayerHealth.SetText("Repair Ship $" + REPAIR_SHIP_COST, 920, 600, 400, 50);
-			buyEarthHealth.SetText("Repair Planet $" + REPAIR_EARTH_COST, 920, 525, 400, 50);
+			buyPlayerHealth.setText("Repair Ship $" + REPAIR_SHIP_COST, 920, 600, 400, 50);
+			buyEarthHealth.setText("Repair Planet $" + REPAIR_EARTH_COST, 920, 525, 400, 50);
 			
 			/** setup the game.events for each button  */
 			buyShipEvent[2].eventType(new ShipChange(CURRENT_SHIP.BASIC, SHIP_ONE_COST));
@@ -446,31 +385,31 @@ public class UpgradeState extends Scene {
 		/** Handles the onTouch event which passes all the data to the game.events */
 		public void onTouch(MotionEvent e, int x, int y) {
 			if(e.getAction() == MotionEvent.ACTION_DOWN) {
-				for(Click c : buyShipEvent) {
+				for(ClickEvent c : buyShipEvent) {
 					c.OnTouch(e, x, y);
 				}
 				
-				for(Click c : repairEvent) {
+				for(ClickEvent c : repairEvent) {
 					c.OnTouch(e, x, y);
 				}
 				
-				for(Click c : perkEvent) {
+				for(ClickEvent c : perkEvent) {
 					c.OnTouch(e, x, y);
 				}
 			}
 		}
 		
 		/** a private function to make drawing so many buttons easier */
-		private void onRender(RenderQueue renderList, GameButton...buttons) {
-			for(GameButton o : buttons) {
-				renderList.pushRenderable(o);
+		private void onRender(RenderQueue renderList, Button...buttons) {
+			for(Button o : buttons) {
+				renderList.put(o);
 			}
 		}
 		
 		/** a private function to make updating so many buttons easier */
-		private void update(GameButton...buttons) {
-			for(GameButton o : buttons) {
-				o.Update();
+		private void update(Button...buttons) {
+			for(Button o : buttons) {
+				o.update();
 			}
 		}
 	}
@@ -488,43 +427,43 @@ public class UpgradeState extends Scene {
 	 */
 	public class UpgradeText  {
 		/** The buy health title in the scene */
-		private LabelLine buyHealthTitle;
+		private Label buyHealthTitle;
 		
 		/** The buy ship title texture */
-		private LabelLine buyShipTitle;
+		private Label buyShipTitle;
 		
 		/** The buy ship title texture */
-		private LabelLine buyPerkTitle;
+		private Label buyPerkTitle;
 
 		/** The constructor that sets up the game.objects needed */
 		public UpgradeText() {
-			LabelEngine e = LabelEngine.Get("large");
-			LabelEngine m = LabelEngine.Get("small");
+			Font e = Font.get("large");
+            Font m = Font.get("small");
 			
-			buyHealthTitle = new LabelLine(m, "Buy Health");
-			buyShipTitle = new LabelLine(e, "Buy Ships");
-			buyPerkTitle = new LabelLine(m, "Buy Perks");
+			buyHealthTitle = new Label(m, "Buy Health");
+			buyShipTitle = new Label(e, "Buy Ships");
+			buyPerkTitle = new Label(m, "Buy Perks");
 		}
 
 		/** onRender function simply pushes the items to the queue */
 		public void onRender(RenderQueue renderList) {
-			renderList.pushRenderable(buyHealthTitle);
-			renderList.pushRenderable(buyShipTitle);
-			renderList.pushRenderable(buyPerkTitle);
-		}
+			renderList.put(buyHealthTitle);
+			renderList.put(buyShipTitle);
+			renderList.put(buyPerkTitle);
+        }
 
-		/** loads the texture elements at there needed position */
+        /** loads the texture elements at there needed position */
 		public void initialise(IFactory factory) {
-			buyHealthTitle.Load(830, 700);
-			buyPerkTitle.Load(840, 350);
-			buyShipTitle.Load(200, 600);
+			buyHealthTitle.load(830, 700);
+			buyPerkTitle.load(840, 350);
+			buyShipTitle.load(200, 600);
 		}
 
 		/** simply updates the text elements */
 		public void update() {
-			buyHealthTitle.Update();
-			buyShipTitle.Update();
-			buyPerkTitle.Update();
+			buyHealthTitle.update();
+			buyShipTitle.update();
+			buyPerkTitle.update();
 		}
 	}
 }

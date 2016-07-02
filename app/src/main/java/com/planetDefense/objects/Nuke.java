@@ -1,46 +1,22 @@
 package com.planetDefense.objects;
 
-/**
- * Copyright (c) 2014 - William Taylor <wi11berto@yahoo.co.uk>
- *
- *	This software is provided 'as-is', without any express or implied warranty. 
- *  In no event will the authors be held liable for any damages arising from 
- *  the use of this software. Permission is granted to anyone to use this 
- *  software for any purpose, including commercial applications, and to 
- *  alter it and redistribute it freely, subject to the following 
- *  restrictions:
- *
- *	1. The origin of this software must not be misrepresented; 
- *     you must not claim that you wrote the original software. 
- *	   If you use this software in a product, an acknowledgment 
- *     in the product documentation would be appreciated 
- *     but is not required.
- *
- *  2. Altered source versions must be plainly marked as such, 
- *     and must not be misrepresented as being the original 
- *     software.
- *  
- *  3. This notice may not be removed or altered 
- *     from any source distribution.
- *     
- */
-
+import com.framework.opengl.OpenglImage;
 
 public class Nuke extends PowerUp {
-	private GL_Image Sprite;
+	private OpenglImage Sprite;
 	private Boolean Visible;
 	private Boolean Used;
-	private Enemys enemys;
+	private Enemies enemies;
 	
-	public Nuke(Enemys enemys) {
+	public Nuke(Enemies enemies) {
 		super();
 		
-		Sprite = new GL_Image();
+		Sprite = new OpenglImage();
 		Sprite.load("sprites/nuke.png", "nuke");
 		Sprite.setPosition(-100, -100, 50, 50);
 
 		this.Visible = true;
-		this.enemys = enemys;
+		this.enemies = enemies;
 		this.Used = false;
 	}
 	
@@ -71,7 +47,7 @@ public class Nuke extends PowerUp {
 	@Override
 	public void onPickUp() {
 		if(super.active) {
-			enemys.KillEnemys();
+			enemies.KillEnemys();
 			Ship.CASH += 500;
 			active = false;
 			Used = true;
@@ -86,7 +62,7 @@ public class Nuke extends PowerUp {
 	}
 
 	@Override
-	public GL_Image getSprite() {
+	public OpenglImage getSprite() {
 		return Sprite;
 	}
 

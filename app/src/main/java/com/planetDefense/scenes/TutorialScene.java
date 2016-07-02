@@ -1,46 +1,22 @@
 package com.planetDefense.scenes;
 
-/**
- * Copyright (c) 2014 - William Taylor <wi11berto@yahoo.co.uk>
- *
- *	This software is provided 'as-is', without any express or implied warranty. 
- *  In no event will the authors be held liable for any damages arising from 
- *  the use of this software. Permission is granted to anyone to use this 
- *  software for any purpose, including commercial applications, and to 
- *  alter it and redistribute it freely, subject to the following 
- *  restrictions:
- *
- *	1. The origin of this software must not be misrepresented; 
- *     you must not claim that you wrote the original software. 
- *	   If you use this software in a product, an acknowledgment 
- *     in the product documentation would be appreciated 
- *     but is not required.
- *
- *  2. Altered source versions must be plainly marked as such, 
- *     and must not be misrepresented as being the original 
- *     software.
- *  
- *  3. This notice may not be removed or altered 
- *     from any source distribution.
- *     
- */
-import com.planetDefense.TaloniteRenderer.RenderQueue;
+import com.framework.IFactory;
+import com.framework.core.CollisionEvent;
+import com.framework.core.EventManager;
+import com.framework.core.Scene;
 import android.view.MotionEvent;
 
+import com.framework.core.SceneManager;
+import com.framework.graphics.Font;
+import com.framework.graphics.Image;
+import com.framework.graphics.Label;
+import com.framework.graphics.RenderQueue;
 import com.planetDefense.activity.MainActivity;
 import com.planetDefense.events.UsePowerUp;
 import java.util.*;
 import com.planetDefense.objects.*;
 
 
-/**
- *  This is the tutorial scene which 
- *  is played on first startup. It can
- *  be played again through the menu scene
- *  
- * @version : final version for release
- * @author : William Taylor
- */
 public class TutorialScene extends Scene {
 	private static final Integer TIMER_START_DELAY = 5000;
 	private static final Integer TIMER_DELAY = 6000;
@@ -57,7 +33,7 @@ public class TutorialScene extends Scene {
 	private MainObjects objects;
 	
 	/** The background for the tutorial scene */
-	private GameImage background;
+	private Image background;
 
 	/** used as a lock to stop the timer continually firing */
 	private Boolean stop = true;
@@ -72,8 +48,8 @@ public class TutorialScene extends Scene {
 	@Override
 	public void onCreate(IFactory factory) {
 		/** First get these assets from the factory */
-		background = factory.Request("LevelBackground");
-		objects = factory.Request("LevelObjects");
+		background = factory.request("LevelBackground");
+		objects = factory.request("LevelObjects");
 		
 		/** The initialise the following inner classes */
 		textItems = new TutorialText();
@@ -90,7 +66,7 @@ public class TutorialScene extends Scene {
 	public void onUpdate() {
 		/** If the user has finished the tutorial make sure to go to menu */
 		if(state >= END) {
-			SceneManager.get().SwitchTo(MainActivity.MENU);
+			SceneManager.get().switchTo(MainActivity.MENU);
 		}
 		
 		/** update the inner classes and the background */
@@ -110,7 +86,7 @@ public class TutorialScene extends Scene {
 	@Override
 	public void onRender(RenderQueue renderList) {
 		/** First add the backgorund to the queue */
-		renderList.pushRenderable(background);
+		renderList.put(background);
 		
 		/** The call the onRender functions for the items */
 		imageItems.onRender(renderList);
@@ -178,7 +154,7 @@ public class TutorialScene extends Scene {
 	 */
 	public class TutorialText {
 		/** The header text for the scene */
-		private LabelLine headerText;
+		private Label headerText;
 		
 		/** should we reload the text value */
 		private Boolean reload = false;
@@ -186,8 +162,8 @@ public class TutorialScene extends Scene {
 		/** initialise function that loads the header text and gets the font needed */
 		public void initialise(IFactory factory) {
 			/** Here we just load the text */
-			headerText = new LabelLine(LabelEngine.Get("Medium"), "Welcome To Planet Defense");
-			headerText.Load(450, 700);
+			headerText = new Label(Font.get("Medium"), "Welcome To Planet Defense");
+			headerText.load(450, 700);
 		}
 		
 		/** update function called when we need to update the text */
@@ -197,32 +173,32 @@ public class TutorialScene extends Scene {
 				/** load this string */
 				switch(state) {
 				
-					case 0: headerText.Text("Welcome to Planet Defense"); break;
-					case 1: headerText.Text("Move the ship by touching the sceen at various points"); break;
-					case 2: headerText.Text("Your goal is to defend the planet from enemys"); break;
-					case 3: headerText.Text("You must hold down on the screen to shoot and move"); imageItems.enableMissiles(); break;
-					case 4: headerText.Text("Power Ups can spawn on the map so look out.");  break;
-					case 5: headerText.Text("Good Luck & Have Fun"); break;
+					case 0: headerText.text("Welcome to Planet Defense"); break;
+					case 1: headerText.text("Move the ship by touching the sceen at various points"); break;
+					case 2: headerText.text("Your goal is to defend the planet from enemys"); break;
+					case 3: headerText.text("You must hold down on the screen to shoot and move"); imageItems.enableMissiles(); break;
+					case 4: headerText.text("Power Ups can spawn on the map so look out.");  break;
+					case 5: headerText.text("Good Luck & Have Fun"); break;
 						
 						/** if we go out of range dont show any text */
-						default: headerText.Text(""); break;
+						default: headerText.text(""); break;
 				} 
 				
 				/** load and centre the text */
-				headerText.Load(640, 700);
-				headerText.Translate(640 - (headerText.GetWidth() / 2), 700);
+				headerText.load(640, 700);
+				headerText.translate(640 - (headerText.getWidth() / 2), 700);
 				
 				/** make sure we dont reload immediatly */
 				reload = false;
 			}
 			
 			/** update the text with all the new changes */
-			headerText.Update();
+			headerText.update();
 		}
 		
 		/** onRender function just pushes the header text to the queue */
 		public void onRender(RenderQueue renderList) {
-			renderList.pushRenderable(headerText);
+			renderList.put(headerText);
 		}
 
 		/** set stage method just updates what stage we are in the tutorial */
@@ -246,7 +222,7 @@ public class TutorialScene extends Scene {
 		private UsePowerUp event;
 		
 		/** The listener for the collision between the powerup and the player */
-		private Collision listener;
+		private CollisionEvent listener;
 		
 		/** The missiles that the player can fire in stage 3 */
 		private Missiles missiles;
@@ -285,9 +261,9 @@ public class TutorialScene extends Scene {
 		/** initalise function just setups all the elements in the scene */
 		public void initialise(IFactory factory) {
 			/** get the following assets from the factory */
-			missiles = factory.Request("Missiles");
-			planet = factory.Request("Earth");
-			player = factory.Request("Ship");
+			missiles = factory.request("Missiles");
+			planet = factory.request("Earth");
+			player = factory.request("Ship");
 			
 			/** Just init all other variables */
 			powerUp = new FastFire();
@@ -296,7 +272,7 @@ public class TutorialScene extends Scene {
 			
 			event = new UsePowerUp(powerUp);
 			
-			listener = new Collision();
+			listener = new CollisionEvent();
 			listener.surfaces(player.GetSprite(), powerUp.getSprite());
 			listener.eventType(event);
 
@@ -334,7 +310,7 @@ public class TutorialScene extends Scene {
 		/** onRender function just pushes all renderable targets to the queue */
 		public void onRender(RenderQueue renderList) {
 			/** push powerup first */
-			renderList.pushRenderable(powerUp.getSprite());
+			renderList.put(powerUp.getSprite());
 			
 			/** The push all other game.objects if we are in the correct state */
 			if(state >= 2) {
