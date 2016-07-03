@@ -34,9 +34,9 @@ import android.view.MotionEvent;
 
 import com.framework.graphics.RenderQueue;
 import com.planetDefense.activity.MainActivity;
-import com.planetDefense.objects.Enemies;
-import com.planetDefense.objects.Enemy;
-import com.planetDefense.objects.Statistics;
+import com.planetDefense.actors.Enemies;
+import com.planetDefense.actors.Enemy;
+import com.planetDefense.common.Statistics;
 
 /**
  *  This is the main scene for the game.
@@ -109,8 +109,8 @@ public class MainScene extends Scene {
 			/** When the fade out effect has finished we increase the difficulty */
 			if(alpha <= 0.0F) {
 				/** Increment the amount of enemys that spawn as well as increase the speed */
-				if(Enemies.STARTING_ENEMYS + Enemies.INCREMENT_VALUE < Enemies.MAX) {
-					Enemies.STARTING_ENEMYS += Enemies.INCREMENT_VALUE;
+				if(Enemies.STARTING_ENEMIES + Enemies.INCREMENT_VALUE < Enemies.MAX) {
+					Enemies.STARTING_ENEMIES += Enemies.INCREMENT_VALUE;
 					Enemy.SPEED += Enemy.INCREMENT;
 				}
 				
@@ -118,7 +118,7 @@ public class MainScene extends Scene {
 				Statistics.get().newRecord(++waveNumber).waveDone();
 				objects.NextLevel(waveNumber);
 				
-				/** Reset these values as well */
+				/** reset these values as well */
 				completed = false;
 				alpha = 1f;
 			}
@@ -173,7 +173,7 @@ public class MainScene extends Scene {
 	
 	/** Simply resets all variables to there initial state */
 	private void reset(int id) {
-		Enemies.STARTING_ENEMYS = 5;
+		Enemies.STARTING_ENEMIES = 5;
 		Enemy.SPEED = 3.0F;
 		objects.Reset(id);
 		completed = false;

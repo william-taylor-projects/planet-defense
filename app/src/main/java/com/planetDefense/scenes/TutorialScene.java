@@ -12,9 +12,13 @@ import com.framework.graphics.Image;
 import com.framework.graphics.Label;
 import com.framework.graphics.RenderQueue;
 import com.planetDefense.activity.MainActivity;
+import com.planetDefense.actors.Earth;
+import com.planetDefense.actors.Enemy;
+import com.planetDefense.actors.Missiles;
+import com.planetDefense.actors.Ship;
+import com.planetDefense.actors.powerups.FastFire;
 import com.planetDefense.events.UsePowerUp;
 import java.util.*;
-import com.planetDefense.objects.*;
 
 
 public class TutorialScene extends Scene {
@@ -114,7 +118,7 @@ public class TutorialScene extends Scene {
 		timer.cancel();
 		timer.purge();
 		
-		/** Reset all game.objects just incase the user does the tutorial again */
+		/** reset all game.objects just incase the user does the tutorial again */
 		imageItems.reload();
 		textItems.reload();
 
@@ -255,7 +259,7 @@ public class TutorialScene extends Scene {
 		/** This is called when we get to a certain state */
 		public void enableMissiles() {
 			/** When we do we reset all the missiles fired */
-			missiles.ResetObject();
+			missiles.resetObject();
 		}
 
 		/** initalise function just setups all the elements in the scene */
@@ -273,7 +277,7 @@ public class TutorialScene extends Scene {
 			event = new UsePowerUp(powerUp);
 			
 			listener = new CollisionEvent();
-			listener.surfaces(player.GetSprite(), powerUp.getSprite());
+			listener.surfaces(player.getSprite(), powerUp.getSprite());
 			listener.eventType(event);
 
 			enemy = new Enemy();
@@ -303,7 +307,7 @@ public class TutorialScene extends Scene {
 			
 			/** if we are at this state the following game.objects need to be updated*/
 			if(state >= 3) {
-				missiles.Update();
+				missiles.update();
 			}
 		}
 
@@ -316,7 +320,7 @@ public class TutorialScene extends Scene {
 			if(state >= 2) {
 				planet.draw(renderList);
 				if(state < 3) {
-					enemy.Draw(renderList);
+					enemy.draw(renderList);
 				}
 			}
 			
@@ -330,7 +334,7 @@ public class TutorialScene extends Scene {
 		public void onTouch(MotionEvent e, int x, int y) {
 			player.OnTouch(e, x, y);
 			if(state >= 3) {
-				missiles.OnTouch(e, x, y);
+				missiles.onTouch(e, x, y);
 			}
 		}
 
@@ -341,8 +345,8 @@ public class TutorialScene extends Scene {
 			this.powerUp.hide();
 			
 			/** Then just reset all the other game.objects */
-			this.missiles.ResetObject();
-			this.player.ResetObject();
+			this.missiles.resetObject();
+			this.player.resetObject();
 			this.planet.resetObject();
 			this.planet.repair();
 		}

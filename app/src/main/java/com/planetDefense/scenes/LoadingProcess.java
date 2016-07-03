@@ -8,7 +8,7 @@ import com.framework.graphics.Font;
 import com.framework.graphics.Image;
 import com.framework.graphics.Label;
 import com.planetDefense.activity.MainActivity;
-import com.planetDefense.objects.Statistics;
+import com.planetDefense.common.Statistics;
 
 public class LoadingProcess {
 	private IFactory factory;

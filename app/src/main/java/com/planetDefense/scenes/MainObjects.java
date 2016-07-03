@@ -8,7 +8,13 @@ import com.framework.core.SceneList;
 import com.framework.graphics.Image;
 import com.framework.graphics.RenderQueue;
 import com.planetDefense.activity.MainActivity;
-import com.planetDefense.objects.*;
+import com.planetDefense.actors.Earth;
+import com.planetDefense.actors.Enemies;
+import com.planetDefense.actors.Enemy;
+import com.planetDefense.actors.hud.GameHUD;
+import com.planetDefense.actors.Missiles;
+import com.planetDefense.actors.powerups.PowerUps;
+import com.planetDefense.actors.Ship;
 
 public class MainObjects extends SceneList implements IContainer {
 	private Integer remainingEnemys;
@@ -35,9 +41,9 @@ public class MainObjects extends SceneList implements IContainer {
 	@Override
 	public void initialise(IFactory factory) {
 		gameHUD.Initialise(factory);
-		missile.Initialise(factory);
-		enemys.Initialise(factory);
-		ship.Initialise(factory);
+		missile.initialise(factory);
+		enemys.initialise(factory);
+		ship.initialise(factory);
 		
 		Reset(MainActivity.MENU);
 	}
@@ -67,17 +73,17 @@ public class MainObjects extends SceneList implements IContainer {
 			gameHUD.SetLevel(1);
 		}
 		
-		/** Reset the counters and enemy states */
-		remainingEnemys = Enemies.STARTING_ENEMYS;
-		enemys.ResetObject();
+		/** reset the counters and enemy states */
+		remainingEnemys = Enemies.STARTING_ENEMIES;
+		enemys.resetObject();
 		Enemy.SPEED = 0.75F;
 		
-		/** Reset the worlds rotation and its health */
+		/** reset the worlds rotation and its health */
 		world.resetObject();
 		world.repair();
 		
 		/** Do the same for the players ship */
-		ship.ResetObject();
+		ship.resetObject();
 		ship.Repair();
 	}
 	
@@ -86,7 +92,7 @@ public class MainObjects extends SceneList implements IContainer {
 	public void onTouch(MotionEvent e, int x, int y) {
 		/** Send the data to the following classes */
 		gameHUD.OnTouch(e, x, y);
-		missile.OnTouch(e, x, y);
+		missile.onTouch(e, x, y);
 		ship.OnTouch(e, x, y);
 	}
 
@@ -94,8 +100,8 @@ public class MainObjects extends SceneList implements IContainer {
 	public void NextLevel(Integer value) {
 		/** Make sure the ship is alive first */
 		if(ship.isAlive()) {
-			remainingEnemys = Enemies.STARTING_ENEMYS;
-			enemys.ResetObject();
+			remainingEnemys = Enemies.STARTING_ENEMIES;
+			enemys.resetObject();
 		}
 
 		gameHUD.SetLevel(value);
@@ -106,28 +112,28 @@ public class MainObjects extends SceneList implements IContainer {
 		background.update();
 		dropables.Update();
 		gameHUD.Update();
-		missile.Update();
-		enemys.Update();
+		missile.update();
+		enemys.update();
 		world.update();
 		ship.Update();	
 
-		int startCount = Enemies.STARTING_ENEMYS;
-		int killCount = enemys.GetNumberOffKills();
+		int startCount = Enemies.STARTING_ENEMIES;
+		int killCount = enemys.getNumberOfEnemiesKilled();
 		
 		remainingEnemys = startCount - killCount;
 	}
 
 	public void onEnter() {
 		for(int i = 0; i < Missiles.COUNT; i++) {
-			missile.ResetMissile(i);
+			missile.resetMissile(i);
 		} dropables.onEnter();
 	}
 
 	public void onExit(Integer e) {
 		if(e == MainActivity.GAMEOVER) {
-			enemys.ResetObject();
+			enemys.resetObject();
 			world.resetObject();
-			ship.ResetObject();
+			ship.resetObject();
 		}
 
 		dropables.onExit();

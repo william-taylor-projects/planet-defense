@@ -12,7 +12,7 @@ import com.framework.graphics.Image;
 import com.framework.graphics.Label;
 import com.framework.graphics.RenderQueue;
 import com.planetDefense.activity.MainActivity;
-import com.planetDefense.objects.WaveNumber;
+import com.planetDefense.actors.hud.WaveNumber;
 import com.planetDefense.events.StateClick;
 
 public class GameOverState extends Scene {

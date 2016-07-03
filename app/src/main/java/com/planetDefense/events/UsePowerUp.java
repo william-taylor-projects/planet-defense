@@ -1,26 +1,26 @@
 package com.planetDefense.events;
 
 import com.framework.IEvent;
-import com.planetDefense.objects.PowerUp;
+import com.planetDefense.actors.powerups.PowerUp;
 
 public class UsePowerUp implements IEvent {
-	private PowerUp powerUp;
+    private PowerUp powerUp;
 
-	public UsePowerUp(PowerUp powerUp) {
-		ChangePowerUp(powerUp);
-	}
+    public UsePowerUp(PowerUp powerUp) {
+        changePowerUp(powerUp);
+    }
 
-	public void ChangePowerUp(PowerUp p) {
-		powerUp = p;
-	}
+    public void changePowerUp(PowerUp p) {
+        powerUp = p;
+    }
 
-	@Override
-	public void onActivate(Object data) {
-		powerUp.onPickUp();
-	}
+    @Override
+    public void onActivate(Object data) {
+        powerUp.onPickUp();
+    }
 
-	@Override
-	public void update() {
+    @Override
+    public void update() {
 
-	}
+    }
 }

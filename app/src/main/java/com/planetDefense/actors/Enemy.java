@@ -1,4 +1,4 @@
-package com.planetDefense.objects;
+package com.planetDefense.actors;
 
 import java.util.Random;
 
@@ -9,6 +9,7 @@ import com.framework.graphics.RenderQueue;
 import com.framework.math.Vector2;
 import com.framework.opengl.OpenglImage;
 import com.planetDefense.events.*;
+import com.planetDefense.common.Statistics;
 
 public class Enemy {
 	public static Integer KILL_COUNT = 0;
@@ -17,8 +18,7 @@ public class Enemy {
 
 	private static Random random = new Random();
 	private Explosion effect;
-	
-	/** The sprite for the enemy */
+
 	private OpenglImage sprite;
 	
 	private EarthCollision collision;
@@ -34,39 +34,32 @@ public class Enemy {
 		sprite.setPosition(-50, -50, 50, 50);
 	
 		effect = new Explosion();
-		effect.Initialise(10);
+		effect.initialise(10);
 	
 		spawned = false;	
 		this.speed = Enemy.SPEED;
 	}
-	
-	/** You basic initialise function that setups the game.events and th object itself */
+
 	public void initialise(IFactory factory) {
-		/** get the earth and player classes from the factory */
 		earth = factory.request("Earth");
 		ship = factory.request("Ship");
-		
-		/** Then setup the event that needs these ojects */
+
 		collision = new EarthCollision(this, earth, ship);
-		
-		/** setup the listener */
+
 		listener = new CollisionEvent();
 		listener.surfaces(getSprite(), earth.getSprite());
 		listener.eventType(collision);		
-		
-		/** and register it with the event manager */
+
 		EventManager.get().addListener(listener);
 	}
-	
-	/** Simply resets the object to its original state */
+
 	public void resetObject() {
 		sprite.translateOnce(0, 0);
 		sprite.reset();
 		spawned = false;
 		KILL_COUNT++;
 	}
-	
-	/** simply sets-off the explosion when called */
+
 	public void explode() {
 		Vector2 vec = sprite.getPosition();
 		
@@ -76,8 +69,8 @@ public class Enemy {
 			Integer x = (int) (sprite.getPosition().getX() + sprite.getSize().getX()/2);
 			Integer y = (int) (sprite.getPosition().getY() + sprite.getSize().getY()/2);
 		
-			effect.DrawAt(x, y);
-			effect.Reset();
+			effect.drateAt(x, y);
+			effect.reset();
 		}
 	}
 
@@ -87,7 +80,7 @@ public class Enemy {
 			sprite.update(0);
 		} 
 
-		effect.Update();
+		effect.update();
 	}
 
 	public void spawn(int seed) {
@@ -110,7 +103,7 @@ public class Enemy {
 		}
 	}
 
-	public void Draw(RenderQueue renderList) {
+	public void draw(RenderQueue renderList) {
 		if(this.spawned) {
 			renderList.put(sprite);
 		} 
@@ -136,7 +129,7 @@ public class Enemy {
 		return(spawned);
 	}
 	
-	public Object GetRawObject() {
+	public Object getRawObject() {
 		return(sprite);
 	}
 }

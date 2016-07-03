@@ -1,4 +1,4 @@
-package com.planetDefense.objects;
+package com.planetDefense.actors.hud;
 
 /**
  * Copyright (c) 2014 - William Taylor <wi11berto@yahoo.co.uk>
@@ -36,6 +36,7 @@ import com.framework.graphics.Label;
 import com.framework.graphics.RenderQueue;
 import com.framework.opengl.OpenglImage;
 import com.planetDefense.activity.MainActivity;
+import com.planetDefense.actors.Ship;
 import com.planetDefense.events.StateClick;
 
 import android.view.MotionEvent;
@@ -129,7 +130,7 @@ public class GameHUD implements IContainer {
 	
 	public class EarthHealth {
 		public OpenglImage Sprite;
-		public Earth Earth;
+		public com.planetDefense.actors.Earth Earth;
 		
 		public EarthHealth() {
 			Sprite = new OpenglImage();
@@ -197,7 +198,7 @@ public class GameHUD implements IContainer {
 		}
 
 		public void Update() {
-			int Health = Player.GetHealth();
+			int Health = Player.getHealth();
 			float x = (float)Health/100;
 			
 			Sprite.setScale(x, 1.0f);

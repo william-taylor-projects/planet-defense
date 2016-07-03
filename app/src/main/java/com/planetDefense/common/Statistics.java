@@ -1,4 +1,4 @@
-package com.planetDefense.objects;
+package com.planetDefense.common;
 
 import com.framework.dialogs.MessageBox;
 import com.framework.io.ResourceFile;

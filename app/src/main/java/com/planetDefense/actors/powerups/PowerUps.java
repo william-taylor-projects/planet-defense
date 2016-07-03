@@ -1,9 +1,11 @@
-package com.planetDefense.objects;
+package com.planetDefense.actors.powerups;
 
 import com.framework.core.CollisionEvent;
 import com.framework.core.EventManager;
 import com.framework.core.SceneManager;
 import com.framework.graphics.RenderQueue;
+import com.planetDefense.actors.Enemies;
+import com.planetDefense.actors.Ship;
 import com.planetDefense.events.UsePowerUp;
 import java.util.*;
 import com.planetDefense.activity.MainActivity;
@@ -57,7 +59,7 @@ public class PowerUps {
 		
 		PowerUpCollision = new CollisionEvent();
 		PowerUpCollision.eventType(userPowerUp);
-		PowerUpCollision.surfaces(Player.GetSprite(), CurrentPowerUp.getSprite());
+		PowerUpCollision.surfaces(Player.getSprite(), CurrentPowerUp.getSprite());
 		
 		EventManager.get().addListener(PowerUpCollision);
 	}
@@ -101,9 +103,9 @@ public class PowerUps {
 					CurrentPowerUp.dropItem(spawn_x, spawn_y);
 					CurrentPowerUp.enable();
 					
-					userPowerUp.ChangePowerUp(CurrentPowerUp);
+					userPowerUp.changePowerUp(CurrentPowerUp);
 					
-					PowerUpCollision.surfaces(Player.GetSprite(), CurrentPowerUp.getSprite());
+					PowerUpCollision.surfaces(Player.getSprite(), CurrentPowerUp.getSprite());
 				}
 			}
 		}.setID(++currentSpawnNumber), SPAWN_TIME);

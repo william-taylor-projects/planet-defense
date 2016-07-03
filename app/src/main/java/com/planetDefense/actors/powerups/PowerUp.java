@@ -1,4 +1,4 @@
-package com.planetDefense.objects;
+package com.planetDefense.actors.powerups;
 
 import com.framework.opengl.OpenglImage;
 

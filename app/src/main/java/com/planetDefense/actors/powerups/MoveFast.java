@@ -1,4 +1,4 @@
-package com.planetDefense.objects;
+package com.planetDefense.actors.powerups;
 
 /**
  * Copyright (c) 2014 - William Taylor <wi11berto@yahoo.co.uk>
@@ -25,6 +25,7 @@ package com.planetDefense.objects;
  *     
  */
 import com.framework.opengl.OpenglImage;
+import com.planetDefense.actors.Ship;
 
 import java.util.TimerTask;
 import java.util.Timer;
@@ -33,8 +34,8 @@ public class MoveFast extends PowerUp {
 	private class TimeOut extends TimerTask {
 		@Override
 		public void run() {
-			Player.EnableDamage();
-			Player.EnableShots();
+			Player.enableDamage();
+			Player.enableShots();
 			Ship.MOVEMENT_ADD = 0;
 		}
 	}
@@ -87,8 +88,8 @@ public class MoveFast extends PowerUp {
 	@Override
 	public void onPickUp() {
 		if(super.active) {
-			Player.DisableDamage();
-			Player.DisableShots();
+			Player.disableDamage();
+			Player.disableShots();
 			
 			Timer.schedule(new TimeOut(), 6000);
 			Ship.MOVEMENT_ADD = 50;

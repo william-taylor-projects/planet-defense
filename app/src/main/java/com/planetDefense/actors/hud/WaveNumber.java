@@ -1,4 +1,4 @@
-package com.planetDefense.objects;
+package com.planetDefense.actors.hud;
 
 import com.framework.graphics.Font;
 import com.framework.graphics.Label;

@@ -1,4 +1,4 @@
-package com.planetDefense.objects;
+package com.planetDefense.actors;
 
 import com.framework.graphics.RenderQueue;
 import com.framework.math.Vector2;
@@ -9,14 +9,14 @@ public class Earth {
 	private static final Float MOON_ROTATION = 1.0f;
 	private static final Float ROTATION = 0.01f;
 
-	private Vector2 spriteCenter;
 	private OpenglImage earthSprite;
 	private OpenglImage moonSprite;
+	private Vector2 spriteCenter;
+
+    private Integer health = 100;
 	private Float earthRotation = 0f;
 	private Float moonRotation = 0f;
 	private Float rotation = 0f;
-
-	private Integer health = 100;
 
 	public Earth() {
 		earthSprite = new OpenglImage();

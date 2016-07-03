@@ -13,7 +13,7 @@ import com.framework.graphics.Label;
 import com.framework.graphics.RenderQueue;
 import com.planetDefense.events.ResetGame;
 import com.planetDefense.events.StateClick;
-import com.planetDefense.objects.Statistics;
+import com.planetDefense.common.Statistics;
 
 public class StatisticsScene extends Scene {
 	private StatisticObjects sceneImages;
@@ -198,7 +198,7 @@ public class StatisticsScene extends Scene {
 			
 			/** create and setup the reset button */
 			resetButton = new Button(Font.get("medium"));
-			resetButton.setText("Reset Stats", 950, 75, 300, 75);
+			resetButton.setText("reset Stats", 950, 75, 300, 75);
 			
 			/** Setup the back and reset game.events */
 			resetEvent = new ClickEvent(resetButton);

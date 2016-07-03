@@ -3,7 +3,10 @@ package com.planetDefense.events;
 import com.framework.IEvent;
 import com.framework.core.EventManager;
 import com.framework.math.Vector2;
-import com.planetDefense.objects.*;
+import com.planetDefense.actors.Earth;
+import com.planetDefense.actors.Enemy;
+import com.planetDefense.actors.Explosion;
+import com.planetDefense.actors.Ship;
 
 public class EarthCollision implements IEvent {
 	private static final EventManager eventManager = EventManager.get();
@@ -24,12 +27,12 @@ public class EarthCollision implements IEvent {
 			Vector2 position = earth.getSprite().getPosition();
 			Vector2 size = earth.getSprite().getSize();
 
-			float x = position.getX() + (float)size.getX()/2;
-			float y = position.getY() + (float)size.getY()/2;
+			float x = position.getX() + (size.getX() / 2);
+			float y = position.getY() + (size.getY() / 2);
 
 			effect = enemy.getEffect();
-			effect.DrawAt(x, y);
-			effect.Reset();
+			effect.drateAt(x, y);
+			effect.reset();
 
 			earth.takeDamage(10);
 			enemy.resetObject();

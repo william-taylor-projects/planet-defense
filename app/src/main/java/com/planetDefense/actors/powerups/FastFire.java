@@ -1,6 +1,7 @@
-package com.planetDefense.objects;
+package com.planetDefense.actors.powerups;
 
 import com.framework.opengl.OpenglImage;
+import com.planetDefense.actors.Missiles;
 
 import java.util.TimerTask;
 import java.util.Timer;

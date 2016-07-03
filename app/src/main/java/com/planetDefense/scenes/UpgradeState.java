@@ -12,10 +12,12 @@ import com.framework.graphics.Font;
 import com.framework.graphics.Image;
 import com.framework.graphics.Label;
 import com.framework.graphics.RenderQueue;
-import com.planetDefense.objects.Ship.CURRENT_SHIP;
+import com.planetDefense.actors.Earth;
+import com.planetDefense.actors.Missiles;
+import com.planetDefense.actors.Ship;
+import com.planetDefense.actors.Ship.CURRENT_SHIP;
 import android.view.MotionEvent;
 
-import com.planetDefense.objects.*;
 import com.planetDefense.events.*;
 
 public class UpgradeState extends Scene {
@@ -189,7 +191,7 @@ public class UpgradeState extends Scene {
 	
 			@Override
 			public void onUiEvent() {
-				Player.SetShip(newShip);
+				Player.setShip(newShip);
 				Ship.CASH -= shipCost;
 			}
 			
@@ -284,7 +286,7 @@ public class UpgradeState extends Scene {
 				
 				if(type.equalsIgnoreCase("Amour Plating")) {
 					Ship.ARMOUR_LEVEL = 2;
-				} else if(type.equalsIgnoreCase("Speed Fire")) {
+				} else if(type.equalsIgnoreCase("Speed fire")) {
 					Missiles.DELAY = 250;
 				} else {
 					Ship.CASH_TO_ADD = 15;
@@ -335,7 +337,7 @@ public class UpgradeState extends Scene {
 			
 			/** setup the text for each button  */ 
 			buyPerkThree.setText("Amour Plating $" + PERK_ONE_COST, 900, 250, 400, 50);
-			buyPerkOne.setText("Speed Fire $" + PERK_TWO_COST, 900, 150, 400, 50);
+			buyPerkOne.setText("Speed fire $" + PERK_TWO_COST, 900, 150, 400, 50);
 			buyPerkTwo.setText("Quick Money $" + PERK_THREE_COST, 900, 50, 400, 50);
 			
 			buyPlayerHealth.setText("Repair Ship $" + REPAIR_SHIP_COST, 920, 600, 400, 50);
@@ -362,7 +364,7 @@ public class UpgradeState extends Scene {
 		
 		/** simply creates new buy perks game.events for each play session */
 		public void initPerkEvents() {
-			perkEvent[0].eventType(new BuyPerk("Speed Fire", PERK_TWO_COST));
+			perkEvent[0].eventType(new BuyPerk("Speed fire", PERK_TWO_COST));
 			perkEvent[1].eventType(new BuyPerk("Quick Money", PERK_THREE_COST));
 			perkEvent[2].eventType(new BuyPerk("Amour Plating", PERK_ONE_COST));
 		}

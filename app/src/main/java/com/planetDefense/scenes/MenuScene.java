@@ -61,7 +61,7 @@ public class MenuScene extends Scene {
 		quit = factory.request("BackButton");
 		title = factory.request("MenuText");
 		
-		/** Initialise the inner button class */
+		/** initialise the inner button class */
 		buttons = new MenuButtons();
 		buttons.initialise(factory);
 		

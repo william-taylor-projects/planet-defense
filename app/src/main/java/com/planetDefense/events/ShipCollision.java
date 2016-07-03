@@ -7,56 +7,56 @@ import com.framework.IEvent;
 import com.framework.core.CollisionEvent;
 import com.framework.math.Vector2;
 import com.framework.opengl.OpenglImage;
-import com.planetDefense.objects.Explosion;
-import com.planetDefense.objects.Enemies;
-import com.planetDefense.objects.Ship;
-
+import com.planetDefense.actors.Explosion;
+import com.planetDefense.actors.Enemies;
+import com.planetDefense.actors.Ship;
 
 public class ShipCollision implements IEvent, CollisionEvent.CollisionArray {
-	private Explosion effect;
-	private Enemies enemy;
-	private Ship ship;
-	private int num;
+    private static final Integer TIMEOUT = 750;
+    private Explosion effect;
+    private Enemies enemy;
+    private Ship ship;
+    private int num;
 
-	public ShipCollision(Enemies enemy, Ship ship) {
-		this.enemy = enemy;
-		this.ship = ship;
-	}
+    public ShipCollision(Enemies enemy, Ship ship) {
+        this.enemy = enemy;
+        this.ship = ship;
+    }
 
-	@Override
-	public void onActivate(Object data) {
-		if(enemy != null && ship != null) {
-			OpenglImage Object = (OpenglImage)enemy.get(num).GetRawObject();
-			OpenglImage Sprite = (OpenglImage)ship.GetRawObject();
-			
-			Vector2 p = Object.getPosition();
-            Vector2 s = Object.getSize();
-			
-			effect = enemy.get(num).getEffect();
-			effect.DrawAt(p.getX() + s.getX()/2, p.getY() + s.getY()/2);
-			effect.Reset();
-			
-			Sprite.setShade(1f, 0.1f, 0.1f, 1f);
-			new Timer().schedule(new TimerTask() {
-				@Override
-				public void run() {
-                    OpenglImage Sprite = (OpenglImage)ship.GetRawObject();
-					Sprite.setShade(1f, 1f, 1f, 1f);
-				}
-			}, 750);
-			
-			enemy.get(num).resetObject();
-			ship.TakeDamage();
-		}
-	}
+    @Override
+    public void onActivate(Object data) {
+        if(enemy != null && ship != null) {
+            final OpenglImage enemyImage = (OpenglImage)enemy.get(num).getRawObject();
+            final OpenglImage shipImage = (OpenglImage)ship.getRawObject();
 
-	@Override
-	public void update() {
+            Vector2 p = enemyImage.getPosition();
+            Vector2 s = enemyImage.getSize();
 
-	}
+            effect = enemy.get(num).getEffect();
+            effect.drateAt(p.getX() + s.getX() / 2, p.getY() + s.getY() / 2);
+            effect.reset();
 
-	@Override
-	public void collisionID(Integer ID) {
-		this.num = ID;
-	}
+            shipImage.setShade(1f, 0.1f, 0.1f, 1f);
+
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    shipImage.setShade(1f, 1f, 1f, 1f);
+                }
+            }, TIMEOUT);
+
+            enemy.get(num).resetObject();
+            ship.takeDamage();
+        }
+    }
+
+    @Override
+    public void collisionID(Integer ID) {
+        this.num = ID;
+    }
+
+    @Override
+    public void update() {
+
+    }
 }

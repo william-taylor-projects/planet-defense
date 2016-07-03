@@ -1,6 +1,8 @@
-package com.planetDefense.objects;
+package com.planetDefense.actors.powerups;
 
 import com.framework.opengl.OpenglImage;
+import com.planetDefense.actors.Enemies;
+import com.planetDefense.actors.Ship;
 
 public class Nuke extends PowerUp {
 	private OpenglImage Sprite;
@@ -47,7 +49,7 @@ public class Nuke extends PowerUp {
 	@Override
 	public void onPickUp() {
 		if(super.active) {
-			enemies.KillEnemys();
+			enemies.killEnemies();
 			Ship.CASH += 500;
 			active = false;
 			Used = true;
