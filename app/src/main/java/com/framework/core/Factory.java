@@ -24,7 +24,7 @@ public class Factory implements IFactory {
     }
 
     @Override
-    public <A> void stackContainer(IContainer container, String name) {
+    public void stackContainer(IContainer container, String name) {
         stack(container, name);
         container.stackSubObjects(this);
     }
