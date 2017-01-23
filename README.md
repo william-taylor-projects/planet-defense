@@ -1,7 +1,6 @@
 <img align='right' width='150' height='150' src='https://lh5.ggpht.com/5RsjiPJrTvF8i7MeZ7Xc6CfN7KyeQIqYmJQaqpvwt2tvcJ2tcbPxFsp9wnVwfXvWD-s=w300-rw'/>
-
 # Planet Defense
-Planet Defense is a simple action game for wave based survival game fans. How long can you survive and protect your planet before you are over-run with enemy's wanting to land and invade the planet? Can you make it long enough to upgrade your ship? Buy perks to improve your chances of surviving so you can defend your planet. Make sure to compare you score to friends, to find out who is the best at succeeding in Planet Defense.
+Planet Defense is a simple action game for wave based survival game fans. How long can you survive and protect your planet before you are over-run with enemy's wanting to land and invade the planet? Can you make it long enough to upgrade your ship? Buy perks to improve your chances of surviving so you can defend your planet.
 
 ![alt tag](http://www.williamsamtaylor.co.uk/images/projects/planet-defense2.jpg)
 
