@@ -1,8 +1,8 @@
+<img align='center' src="http://www.williamsamtaylor.co.uk/images/projects/planet-defense2.jpg" />
+
 <img align='right' width='150' height='150' src='https://lh5.ggpht.com/5RsjiPJrTvF8i7MeZ7Xc6CfN7KyeQIqYmJQaqpvwt2tvcJ2tcbPxFsp9wnVwfXvWD-s=w300-rw'/>
 # Planet Defense
 Planet Defense is a simple action game for wave based survival game fans. How long can you survive and protect your planet before you are over-run with enemy's wanting to land and invade the planet? Can you make it long enough to upgrade your ship? Buy perks to improve your chances of surviving so you can defend your planet.
-
-![alt tag](http://www.williamsamtaylor.co.uk/images/projects/planet-defense2.jpg)
 
 ## Overview
 Planet Defense is an OpenGL ES 2.0 application. In fact the whole thing is OpenGL apart from the message boxes which are of course native gui items.
