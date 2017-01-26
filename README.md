@@ -1,4 +1,4 @@
-<img width='1280' height='720' align='middle' src="http://www.williamsamtaylor.co.uk/images/projects/planet-defense2.jpg" />
+<img width='900' height='500' align='middle' src="http://www.williamsamtaylor.co.uk/images/projects/planet-defense2.jpg" />
 
 <img align='right' width='150' height='150' src='https://lh5.ggpht.com/5RsjiPJrTvF8i7MeZ7Xc6CfN7KyeQIqYmJQaqpvwt2tvcJ2tcbPxFsp9wnVwfXvWD-s=w300-rw'/>
 
