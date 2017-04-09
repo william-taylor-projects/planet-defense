@@ -1,23 +1,15 @@
-apply plugin: 'com.android.application'
-
-android {
-    compileSdkVersion 19
-    buildToolsVersion "23.0.2"
-
-    defaultConfig {
-        applicationId "com.com.planetDefense"
-        minSdkVersion 11
-        targetSdkVersion 20
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        jcenter()
     }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-        }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
     }
 }
 
-dependencies {
-    compile 'com.android.support:support-v4:19.1.0'
+allprojects {
+    repositories {
+        jcenter()
+    }
 }
