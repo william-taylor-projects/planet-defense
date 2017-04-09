@@ -16,10 +16,6 @@ The application was built with Java and the Android-SDK using the OpenGL 2.0 ES 
 * Particle effects
 * Basic 2D physics
 * Bitmap fonts
- 
-## Links
-
-[Google Play Store](https://play.google.com/store/apps/details?id=com.planetDefense&hl=en_GB)
 
 ## License
  
