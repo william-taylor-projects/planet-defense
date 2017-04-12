@@ -4,9 +4,9 @@ jdk:
 android:
     components:
         - tools
-        - build-tools-23.0.1
+        - build-tools-23.0.2
         - platform-tools
-        - android-23
+        - android-19
 script:
    - cd app
    - chmod +x ./gradlew
