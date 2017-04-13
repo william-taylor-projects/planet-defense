@@ -2,7 +2,8 @@
 
 <img align='right' width='150' height='150' src='https://lh5.ggpht.com/5RsjiPJrTvF8i7MeZ7Xc6CfN7KyeQIqYmJQaqpvwt2tvcJ2tcbPxFsp9wnVwfXvWD-s=w300-rw'/>
 
-# Planet Defense
+# Planet Defense &nbsp; &nbsp; &nbsp; [![Build status](https://travis-ci.org/william-taylor/planet-defense.svg?branch=master)](https://travis-ci.org/william-taylor/planet-defense) [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=102)](https://github.com/ellerbrock/open-source-badge/) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 
 Planet Defense is a simple action game for wave based survival game fans. It is an OpenGL ES 2.0 application. In fact the whole thing is OpenGL apart from the message boxes which are of course native GUI items. It was built as I was getting into Android development for the first time and to this day I am still quite proud of it as I only have a year of programming expierence when I built this application.
 
